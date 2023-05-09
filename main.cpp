@@ -1,13 +1,13 @@
 #include <SDL2/SDL.h>
 #include "lcd.h"
 #include <pthread.h>
-#include "Figures/label.h"
+#include "Figures/TextBox.h"
+#include "Figures/MainWindow.h"
 
-label l(10,10,LCD_COLOR_GRAY,LCD_COLOR_BLACK,"label1",LCD_FONT_SMALL);
 
 void* draw_task(void* args){
 
-    SDL_Renderer *renderer = (SDL_Renderer*)args;
+    auto renderer = (SDL_Renderer*)args;
     // Set the color of the screen to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
@@ -38,13 +38,14 @@ void* draw_task(void* args){
     }
 
     LCD_deinit();
-    return NULL;
+    return nullptr;
 }
 
 
 void *input_task(void *arg) {
+    (void)arg;
     SDL_Event event;
-    while (1) {
+    while (true) {
         if (SDL_PollEvent(&event)) {
             if (event.type == SDL_KEYDOWN) {
                 LCD_clear();
@@ -54,8 +55,16 @@ void *input_task(void *arg) {
                     case 4: LCD_draw_string(0,0, "Hola", LCD_FONT_SMALL, LCD_COLOR_GRAY); break;
                     case 5: LCD_draw_string(0,0, "Mundo", LCD_FONT_SMALL, LCD_COLOR_GRAY); break;
                     case 6: LCD_draw_string(0,0, "Hola Mundo", LCD_FONT_SMALL, LCD_COLOR_GRAY); break;
-                    case 7: l.draw();
+                    case 7: {
+                        TextBox t(0, 0, 240, 20, LCD_COLOR_GRAY, LCD_COLOR_BLACK, "Titulo 1", LCD_FONT_SMALL, Text_Left);
+                        t.draw();
+                    }
                         break;
+                    case 8:{
+                        MainWindow w("Titulo");
+                        w.draw();
+                        break;
+                    }
                     default: LCD_draw_string(0,0, "Chao Mundo", LCD_FONT_SMALL, LCD_COLOR_BLACK);
                 }
             }
@@ -64,27 +73,32 @@ void *input_task(void *arg) {
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 
 int main(int argc, char** argv) {
+
+    (void)argc;
+    (void)argv;
+
     SDL_Init(SDL_INIT_VIDEO);
 
     // Create a window and a renderer
-    SDL_Window* window = SDL_CreateWindow("My Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 480, 256, SDL_WINDOW_SHOWN);
+    SDL_Window* window = SDL_CreateWindow("My Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                          480, 256, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
 
     // Create a thread for the draw loop
     pthread_t drawThread;
-    pthread_create(&drawThread, NULL, draw_task, renderer);
+    pthread_create(&drawThread, nullptr, draw_task, renderer);
 
     pthread_t inputThread;
-    pthread_create(&inputThread, NULL, input_task, renderer);
+    pthread_create(&inputThread, nullptr, input_task, renderer);
 
     // Wait for the draw thread to finish
-    pthread_join(drawThread, NULL);
+    pthread_join(drawThread, nullptr);
     pthread_cancel(inputThread);
 
 

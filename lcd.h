@@ -6,6 +6,9 @@
 #ifndef LCD_H
 #define LCD_H
 
+#define LCD_WIDTH           240
+#define LCD_HEIGHT          128
+
 typedef enum{
     LCD_FONT_EXTRA_SMALL = 0,
     LCD_FONT_SMALL,

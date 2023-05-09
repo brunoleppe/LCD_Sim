@@ -450,7 +450,7 @@ void    LCD_draw_string (int x, int y, const char *str, LCD_Fonts f, uint8_t col
     const LCD_Font *font = fonts[f];
     uint8_t i,len = strlen(str);
     uint8_t negative = LCD_color_inverse(color);
-    uint8_t space = 1;
+    uint8_t space = 0;
 //    LCD_draw_fill(x, y, font->rows, len*(space+font->cols), negative);
     for(i=0;i<len;i++){
         LCD_draw_char(x, y,str[i], f, color);
