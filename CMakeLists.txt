@@ -14,7 +14,7 @@ add_executable(LCDTest
         lcd.c
         lcd.h
 #        test.c
-        Figures/Figure.cpp Figures/Figure.h Figures/Label.cpp Figures/Label.h main.cpp Figures/Drawable.h Figures/Composite.h Figures/Box.cpp Figures/Box.h Figures/TextBox.cpp Figures/TextBox.h Figures/Window.h Figures/MainWindow.cpp Figures/MainWindow.h Figures/make_unique.h)
+        Figures/Figure.cpp Figures/Figure.h Figures/Label.cpp Figures/Label.h main.cpp Figures/Drawable.h Figures/Composite.h Figures/Box.cpp Figures/Box.h Figures/TextBox.cpp Figures/TextBox.h Figures/Window.h Figures/MainWindow.cpp Figures/MainWindow.h Figures/make_unique.h MVC/mvc.h)
 
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)
