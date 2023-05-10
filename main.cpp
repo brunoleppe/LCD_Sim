@@ -1,13 +1,21 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 #include "lcd.h"
-#include <pthread.h>
 #include "Figures/TextBox.h"
 #include "Figures/MainWindow.h"
+#include <iostream>
+#include "Input/input.h"
+#include "MVC/Controller.h"
+#include "MVC/Model.h"
+bool running = true;
 
 
-void* draw_task(void* args){
+int draw_task(void* data){
 
-    auto renderer = (SDL_Renderer*)args;
+    SDL_Window* window = static_cast<SDL_Window*>(data);
+
+    // Create renderer for window
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
     // Set the color of the screen to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
@@ -15,14 +23,13 @@ void* draw_task(void* args){
     LCD_init(renderer);
     LCD_draw_string(20,40, "Hola Mundo", LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
     // Event loop
-    bool quit = false;
     SDL_Event event;
-    while (!quit) {
+    while (running) {
         // Handle events
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
-                    quit = true;
+                    running = false;
                     break;
                 default:
                     break;
@@ -38,19 +45,26 @@ void* draw_task(void* args){
     }
 
     LCD_deinit();
-    return nullptr;
+    // Clean up and quit SDL
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
 }
 
 
-void *input_task(void *arg) {
-    (void)arg;
+int input_task(void *data) {
     SDL_Event event;
-    while (true) {
+    while (running) {
+//        SDL_Delay(1000);
+//        printf("Hola\n");
         if (SDL_PollEvent(&event)) {
+
             if (event.type == SDL_KEYDOWN) {
+                input_report_key(event.key.keysym.scancode, event.type);
                 LCD_clear();
-                printf("Key pressed: scan code %d, event code %d\n",
-                       event.key.keysym.scancode, event.key.keysym.sym);
+                printf("Char: %c\n", SDL_GetKeyFromScancode(event.key.keysym.scancode));
                 switch(event.key.keysym.scancode){
                     case 4: LCD_draw_string(0,0, "Hola", LCD_FONT_SMALL, LCD_COLOR_GRAY); break;
                     case 5: LCD_draw_string(0,0, "Mundo", LCD_FONT_SMALL, LCD_COLOR_GRAY); break;
@@ -69,11 +83,12 @@ void *input_task(void *arg) {
                 }
             }
             else if (event.type == SDL_QUIT) {
-                break;
+                running = false;
             }
+
         }
     }
-    return nullptr;
+    return 0;
 }
 
 
@@ -82,30 +97,47 @@ int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
 
-    SDL_Init(SDL_INIT_VIDEO);
-
-    // Create a window and a renderer
-    SDL_Window* window = SDL_CreateWindow("My Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                          480, 256, SDL_WINDOW_SHOWN);
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+    Controller controller;
+    Model model;
+    controller.set_model(model);
+    input_register(&controller);
 
 
-    // Create a thread for the draw loop
-    pthread_t drawThread;
-    pthread_create(&drawThread, nullptr, draw_task, renderer);
 
-    pthread_t inputThread;
-    pthread_create(&inputThread, nullptr, input_task, renderer);
+    // Create a window
+    SDL_Window* window = SDL_CreateWindow("My Window", 100, 100, 480, 256, SDL_WINDOW_SHOWN);
+    if (window == nullptr) {
+        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
 
-    // Wait for the draw thread to finish
-    pthread_join(drawThread, nullptr);
-    pthread_cancel(inputThread);
+    // Create rendering thread
+    SDL_Thread* renderThread = SDL_CreateThread(draw_task, "RenderThread", window);
+    if (renderThread == nullptr) {
+        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
 
+    // Create event handling thread
+    SDL_Thread* eventThread = SDL_CreateThread(input_task, "EventThread", window);
+    if (eventThread == nullptr) {
+        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
+        running = false;
+        SDL_WaitThread(renderThread, nullptr);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
 
-    // Clean up and quit SDL
-    SDL_DestroyRenderer(renderer);
+    // Wait for event handling thread to exit
+    SDL_WaitThread(eventThread, nullptr);
+    // Cleanup
+    SDL_WaitThread(renderThread, nullptr);
+    model.join();
     SDL_DestroyWindow(window);
     SDL_Quit();
-
     return 0;
 }
