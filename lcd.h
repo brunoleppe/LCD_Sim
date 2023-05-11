@@ -63,6 +63,8 @@ void LCD_print();
 
 const LCD_Font* LCD_get_font(LCD_Fonts font);
 
+uint8_t LCD_color_inverse(uint8_t color);
+
 #ifdef __cplusplus
 }
 #endif

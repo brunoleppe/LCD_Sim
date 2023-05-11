@@ -29,8 +29,8 @@ Size Figure::get_size() {
 }
 
 void Figure::invert_colors() {
-    backColor = 255 - backColor;
-    foreColor = 255 - foreColor;
+    backColor = LCD_color_inverse(backColor);
+    foreColor = LCD_color_inverse(foreColor);
 }
 
 Figure::~Figure() = default;

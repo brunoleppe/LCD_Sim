@@ -21,9 +21,10 @@ public:
     Label(int x, int y, uint8_t back, uint8_t fore, const char *str, LCD_Fonts font);
     void draw() override;
     void crop_to_width(int width);
+    void set_text(const char *string);
 private:
-    std::string s;
     LCD_Fonts font;
+    std::string s;
 public:
 
 };

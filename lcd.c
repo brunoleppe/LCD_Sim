@@ -375,7 +375,7 @@ static const LCD_Font *fonts[]={
 * Function Prototypes
 **********************************************************************/
 static unsigned char* LCD_get_char(unsigned char c, const LCD_Font *font);
-static uint8_t LCD_color_inverse(uint8_t color);
+
 /**********************************************************************
 * Function Definitions
 **********************************************************************/
@@ -392,11 +392,17 @@ void    LCD_deinit()
 void    LCD_draw_point  (int x, int y, uint8_t color)
 {
     int rgb = color;
+
+    SDL_LockSurface(bitmapSurface);
+
     Uint32* pixels = (Uint32*) bitmapSurface->pixels;
     pixels[2*x + 2* y * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
     pixels[(2*x +1) + (2*y + 1) * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
     pixels[(2*x) + (2*y + 1) * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
     pixels[(2*x +1) + (2*y) * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
+
+    SDL_UnlockSurface(bitmapSurface);
+
 
 }
 void    LCD_draw_hline  (int x, int y, int length, uint8_t color)
@@ -449,8 +455,8 @@ void    LCD_draw_string (int x, int y, const char *str, LCD_Fonts f, uint8_t col
 {
     const LCD_Font *font = fonts[f];
     uint8_t i,len = strlen(str);
-    uint8_t negative = LCD_color_inverse(color);
-    uint8_t space = 0;
+//    uint8_t negative = LCD_color_inverse(color);
+    uint8_t space = 1;
 //    LCD_draw_fill(x, y, font->rows, len*(space+font->cols), negative);
     for(i=0;i<len;i++){
         LCD_draw_char(x, y,str[i], f, color);
@@ -470,7 +476,7 @@ void    LCD_print()
     
     // Create a texture from the bitmap surface
     SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, bitmapSurface);
-    
+
     // Draw the bitmap texture to the renderer
     SDL_Rect bitmapRect = { 0, 0, bitmapSurface->w, bitmapSurface->h };
     SDL_RenderCopy(renderer, bitmapTexture, NULL, &bitmapRect);

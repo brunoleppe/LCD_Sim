@@ -19,6 +19,12 @@ void Label::draw() {
 
 void Label::crop_to_width(int width) {
     int erase = width/(LCD_get_font(font)->cols + 1);
+
     s.erase(erase);
     this->w = s.length() * (LCD_get_font(font)->cols + 1);
+}
+
+void Label::set_text(const char *str) {
+    s.assign(str);
+    w = s.length() * (LCD_get_font(font)->cols + 1);
 }

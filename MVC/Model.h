@@ -5,25 +5,23 @@
 #ifndef LCDTEST_MODEL_H
 #define LCDTEST_MODEL_H
 
-#include "Controller.h"
 #include <queue>
 #include <SDL.h>
 #include <SDL_thread.h>
+#include <vector>
+#include <string>
+#include "MessagePacket.h"
+#include "StateMachine.h"
 
 
-class Model {
+class Model : public State{
+protected:
+    explicit Model(MessagePacket *data) : data(data) {}
+    MessagePacket *data;
 public:
-    void update_state(InputEvent &event);
-    void join();
-    void stop();
-    Model();
-
-private:
-    bool running;
-    static int task(void *data);
-    SDL_Thread *taskThread;
-    std::queue<InputEvent*> queue;
+    MessagePacket *get_data(){
+        return data;
+    }
 };
-
 
 #endif //LCDTEST_MODEL_H

@@ -11,6 +11,7 @@
 class MainWindow : public Window {
 public:
     explicit MainWindow(const char *title);
+    void set_title(const char *title);
 private:
     TextBox titleBox;
 //    Window area;

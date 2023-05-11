@@ -57,4 +57,11 @@ void TextBox::align_text(TextAlignment align) {
 
 }
 
+void TextBox::set_text(const char *str) {
+    label.set_text(str);
+    if(label.get_size().width > (w - 2))
+        label.crop_to_width(w-2);
+    align_text(alignment);
+}
+
 

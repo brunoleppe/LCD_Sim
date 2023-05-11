@@ -51,9 +51,10 @@ public:
         Composite::set_position(x0,y0);
     }
 private:
+    Box rect;
     WindowHorAlignment hor = WindowHor_Center;
     WindowVerAlignment ver = WindowVer_Center;
-    Box rect;
+
 };
 
 

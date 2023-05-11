@@ -32,9 +32,9 @@ public:
     virtual ~Drawable() = default;
 
 protected:
+    int x,y,w,h;
     uint8_t backColor;
     uint8_t foreColor;
-    int x,y,w,h;
 
     Drawable(int x, int y, int w, int h, uint8_t backcolor, uint8_t forecolor)
     : x(x), y(y), w(w), h(h), backColor(backcolor), foreColor(forecolor)

@@ -7,6 +7,10 @@
 
 
 #include "Input/input.h"
+#include "Model.h"
+#include "Views/View.h"
+#include "GraphicalService.h"
+#include <queue>
 
 enum Command {
     COMMAND_ENTER = 0,
@@ -28,6 +32,9 @@ enum EventState {
     CLICKED,
 };
 
+
+
+
 struct InputEvent {
     EventType type;
     union {
@@ -37,16 +44,25 @@ struct InputEvent {
     EventState state;
 };
 
-class Model;
-class View;
-
 class Controller : public Observer{
 public:
+
+    Controller(GraphicalService* s, MenuView* v);
+
+    void Stop();
+
     void update(Subject *subject) override;
-    void set_model(Model &model);
+    static int controller_task(void *data);
+
+    virtual ~Controller() = default;
+
 private:
-    void report_event(InputEvent &inputEvent);
-    Model *model;
+    GraphicalService *s;
+    MenuView *v;
+
+    std::queue<std::pair<int, int>> queue;
+
+    bool running;
 };
 
 
