@@ -6,12 +6,13 @@
 #define LCDTEST_STATEOPTIONMENU_H
 
 #include "MVC/Model.h"
+#include "MVC/ControllerInputEvent.h"
 
 class StateOptionMenu : public Model{
 public:
     StateOptionMenu();
     static StateOptionMenu instance;
-    void on_event() override;
+    void on_event(ControllerInputEvent &evt) override;
 private:
     MenuMessagePacket stateData;
 };

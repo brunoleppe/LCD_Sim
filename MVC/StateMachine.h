@@ -4,6 +4,9 @@
 
 #ifndef LCDTEST_STATEMACHINE_H
 #define LCDTEST_STATEMACHINE_H
+
+#include "ControllerInputEvent.h"
+
 class StateMachine;
 
 class State{
@@ -14,7 +17,7 @@ public:
     virtual void on_enter(){};
     virtual void on_exit(){};
     virtual void on_task(){};
-    virtual void on_event(){};
+    virtual void on_event(ControllerInputEvent &evt) {};
     virtual ~State() = default;
 
 };

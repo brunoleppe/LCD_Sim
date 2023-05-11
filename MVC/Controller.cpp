@@ -3,32 +3,46 @@
 //
 
 #include "Controller.h"
-#include <cstdio>
-#include <iostream>
 #include <SDL2/SDL.h>
-#include "Model.h"
+#include "ControllerInputEvent.h"
+#include "Input/virtual_term.h"
 
 void Controller::update(Subject *subject) {
-    if(subject->get_type() == SUBJECT_TYPE_INPUT)
-        queue.push(((InputSubject*)subject)->get_data());
+    if(subject->get_type() == SUBJECT_TYPE_INPUT) {
+        queue.push(((InputSubject *) subject)->get_data());
+    }
 }
 
-Controller::Controller(GraphicalService* s, MenuView* v)
-{
-    this->s = s;
-    this->v = v;
-    running = true;
-}
+Controller::Controller(ModelStateService* s, ViewService* v) : model(s), view(v), running(true)
+{}
 
 int Controller::controller_task(void *data) {
     auto c = (Controller*)data;
-    c->v->set_title(((FramedMessagePacket*)c->s->get_data())->title);
-    c->v->draw();
+    c->view->set_message(c->model->get_data());
+    c->view->update();
     while(c->running){
         if(!c->queue.empty()){
-            c->s->on_event();
-            c->v->set_title(((FramedMessagePacket*)c->s->get_data())->title);
-            c->v->draw();
+
+            auto evt = c->queue.front();
+            ControllerInputEvent cEvt = {.event = evt.value};
+            int res;
+            if((res = is_alpha(evt.code))){
+                cEvt.type = INPUT_EVENT_TYPE_ALPHA;
+                cEvt.code = res;
+            }
+            else if((res = is_numeric(evt.code))){
+                cEvt.type = INPUT_EVENT_TYPE_NUMERIC;
+                cEvt.code = res;
+            }
+            else if((res = is_control(evt.code))){
+                cEvt.type = INPUT_EVENT_TYPE_CONTROL;
+                cEvt.code = res;
+            }
+
+            c->view->set_event(cEvt);
+            c->model->on_event(cEvt);
+            c->view->set_message(c->model->get_data());
+            c->view->update();
             c->queue.pop();
         }
         SDL_Delay(10);

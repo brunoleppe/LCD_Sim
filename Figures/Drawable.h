@@ -28,8 +28,9 @@ public:
     virtual Position get_position() = 0;
     virtual Size get_size() = 0;
     virtual void invert_colors() = 0;
-
     virtual ~Drawable() = default;
+
+
 
 protected:
     int x,y,w,h;

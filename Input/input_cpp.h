@@ -2,12 +2,13 @@
 // Created by bruno on 09/05/23.
 //
 
-#ifndef LCDTEST_INPUT_H
-#define LCDTEST_INPUT_H
+#ifndef LCDTEST_INPUT_CPP_H
+#define LCDTEST_INPUT_CPP_H
 
 #include <iostream>
 #include <list>
 #include <string>
+#include "input.h"
 
 // Forward declaration of the Subject class
 class Subject;
@@ -45,12 +46,12 @@ public:
 
 class InputSubject : public Subject{
 private:
-    std::pair<int, int> inputEvent;
+    InputEvent inputEvent;
 public:
-    void set_data(std::pair<int, int> event){
+    void set_data(InputEvent& event){
         inputEvent = event;
     }
-    std::pair<int, int> get_data(){
+    InputEvent& get_data(){
         return inputEvent;
     }
 
@@ -60,8 +61,7 @@ public:
 };
 
 void input_register(Observer* observer);
-void input_report_key(int scancode, int eventType);
 
 
 
-#endif //LCDTEST_INPUT_H
+#endif //LCDTEST_INPUT_CPP_H
