@@ -6,7 +6,6 @@
 #define LCDTEST_COMPOSITE_H
 
 #include <vector>
-#include <memory>
 #include "Figure.h"
 
 class Composite : public Drawable{

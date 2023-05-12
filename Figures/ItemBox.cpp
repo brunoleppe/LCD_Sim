@@ -41,11 +41,11 @@ void ListItemBox::draw() {
         uint8_t fcolor = foreColor;
         uint8_t bcolor = backColor;
         if(item->get_focus()) {
-            fcolor = LCD_color_inverse(fcolor);
-            bcolor = LCD_color_inverse(bcolor);
+            fcolor = LCD_invert_color(static_cast<LCD_COLOR>(fcolor));
+            bcolor = LCD_invert_color(static_cast<LCD_COLOR>(bcolor));
         }
-        LCD_draw_fill(x+2, startPos+2, 16, w - 4, bcolor);
-        LCD_draw_string(x+4, startPos+4, item->get_cstring(), LCD_FONT_SMALL, fcolor);
+        LCD_draw_fill(x+2, startPos+2, 16, w - 4, static_cast<LCD_COLOR>(bcolor));
+        LCD_draw_string(x+4, startPos+4, item->get_cstring(), LCD_FONT_SMALL, static_cast<LCD_COLOR>(fcolor));
         startPos += 20;
     }
 }
@@ -77,4 +77,16 @@ void ListItemBox::focus(int i) {
             }
         }
     }
+}
+
+void ListItemBox::focus_next() {
+    if(++startIndex > items->size()-1)
+        startIndex = 0;
+    focus(startIndex);
+}
+
+void ListItemBox::focus_prev() {
+    if(--startIndex < 0)
+        startIndex = items->size()-1;
+    focus(startIndex);
 }

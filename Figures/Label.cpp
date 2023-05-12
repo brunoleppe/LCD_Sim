@@ -13,8 +13,8 @@ Label::Label(int x, int y, uint8_t back, uint8_t fore, const char *str, LCD_Font
 }
 
 void Label::draw() {
-    LCD_draw_fill(x,y,h,w,backColor);
-    LCD_draw_string(x,y,s.c_str(),font,foreColor);
+    LCD_draw_fill(x,y,h,w,(LCD_COLOR)backColor);
+    LCD_draw_string(x,y,s.c_str(),font,(LCD_COLOR)foreColor);
 }
 
 void Label::crop_to_width(int width) {

@@ -12,7 +12,13 @@
 #include "DataTypes/Item.h"
 #include "MVC/ControllerInputEvent.h"
 #include "DataTypes/Observer.h"
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+#include "virtual_term.h"
+#include "linux_keys.h"
+#else
 #include "Input/virtual_term.h"
+#endif
+
 
 class View {
 public:
@@ -36,13 +42,13 @@ public:
         subject->set_data(evt);
         int res;
         if((res = is_alpha(evt.code))){
-            on_alpha_key(evt.value, char(res));
+            on_alpha_key((INPUT_EVENTS)evt.value, char(res));
         }
         else if((res = is_numeric(evt.code))){
-            on_numeric_key(evt.value, (char)res);
+            on_numeric_key((INPUT_EVENTS)evt.value, (char)res);
         }
         else if((res = is_control(evt.code))){
-            on_control_key(evt.value, (ControlType)res);
+            on_control_key((INPUT_EVENTS)evt.value, (ControlType)res);
         }
     }
 
@@ -86,7 +92,11 @@ public:
         }
         else if(evt == INPUT_EVENT_CLICKED){
             InputEvent  i = {
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+                    .code = KEY_ENTER,
+#else
                     .code = SDL_SCANCODE_RETURN,
+#endif
                     .value = evt,
             };
             subject->set_data(i);
@@ -101,7 +111,19 @@ public:
     }
 
     void on_control_key(INPUT_EVENTS evt, ControlType c) override {
-        subject->notify();
+        if(c == CONTROL_TYPE_DOWN && evt == INPUT_EVENT_PRESSED){
+            window.focus_next();
+            draw();
+            return;
+        }
+        else if(c == CONTROL_TYPE_UP && evt == INPUT_EVENT_PRESSED){
+            window.focus_prev();
+            draw();
+            return;
+        }
+        else {
+            subject->notify();
+        }
     }
 
 

@@ -3,30 +3,45 @@
 //
 
 #include "Controller.h"
-#include <SDL2/SDL.h>
 #include "ControllerInputEvent.h"
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+#include "virtual_term.h"
+#else
 #include "Input/virtual_term.h"
-
-#include <cstdio>
-
+#endif
 void Controller::update() {
-//    if(subject->get_type() == SUBJECT_TYPE_INPUT) {
-//        queue.push(((InputSubject *) subject)->get_data());
-//    }
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+    xQueueSend(queue, &inputSubject->get_data(),portMAX_DELAY);
+#else
     queue.push(inputSubject->get_data());
+#endif
 }
 
 Controller::Controller(ModelStateService* s, ViewService* v) : model(s), view(v), running(true)
-{}
-
-int Controller::controller_task(void *data) {
+{
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+        queue = xQueueCreate(5, sizeof(InputEvent));
+#endif
+}
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+void
+#else
+int
+#endif
+Controller::controller_task(void *data) {
     auto c = (Controller*)data;
     c->view->set_message(c->model->get_data());
     c->view->update();
     while(c->running){
+        InputEvent evt;
+#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
+        if(xQueueReceive(c->queue, &evt, portMAX_DELAY)){
+#else
         if(!c->queue.empty()){
-            auto evt = c->queue.front();
-            ControllerInputEvent cEvt = {.event = evt.value};
+            evt = c->queue.front();
+            c->queue.pop();
+#endif
+            ControllerInputEvent cEvt = {.event = (INPUT_EVENTS)evt.value};
             int res;
             if((res = is_alpha(evt.code))){
                 cEvt.type = INPUT_EVENT_TYPE_ALPHA;
@@ -40,18 +55,13 @@ int Controller::controller_task(void *data) {
                 cEvt.type = INPUT_EVENT_TYPE_CONTROL;
                 cEvt.code = res;
             }
-
 //            c->view->set_event(cEvt);
             if(c->model->on_event(cEvt)) {
                 c->view->set_message(c->model->get_data());
                 c->view->update();
             }
-
-            c->queue.pop();
         }
-        SDL_Delay(10);
     }
-    return 0;
 }
 
 void Controller::Stop() {

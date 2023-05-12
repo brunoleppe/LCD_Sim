@@ -34,3 +34,11 @@ void MenuWindow::clear_items() {
 void MenuWindow::focus(int i) {
     listBox.focus(i);
 }
+
+void MenuWindow::focus_next() {
+    listBox.focus_next();
+}
+
+void MenuWindow::focus_prev() {
+    listBox.focus_prev();
+}

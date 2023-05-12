@@ -5,7 +5,6 @@
 #ifndef LCDTEST_INPUT_CPP_H
 #define LCDTEST_INPUT_CPP_H
 
-#include <iostream>
 #include <list>
 #include <string>
 #include "input.h"

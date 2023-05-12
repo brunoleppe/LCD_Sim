@@ -29,6 +29,8 @@ public:
     ListItemBox(int x, int y, int width, int height, uint8_t back, uint8_t fore);
 
     void focus(int i);
+    void focus_next();
+    void focus_prev();
 
 private:
     int count;

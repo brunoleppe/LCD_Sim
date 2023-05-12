@@ -20,6 +20,8 @@ public:
     void clear_items();
 
     void focus(int i);
+    void focus_next();
+    void focus_prev();
 
 private:
     TextBox titleBox;

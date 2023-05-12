@@ -6,8 +6,6 @@
 #define LCDTEST_MODEL_H
 
 #include <queue>
-#include <SDL.h>
-#include <SDL_thread.h>
 #include <vector>
 #include <string>
 #include "MessagePacket.h"

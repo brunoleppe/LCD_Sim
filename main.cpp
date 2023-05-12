@@ -76,19 +76,20 @@ int main(int argc, char** argv) {
     s->set_state(&StateMainMenu::instance);
     auto *c = new Controller(s, &ViewService::instance);
     input_register(c);
+    ViewService::instance.start();
 
     std::cout << "MVC iniciado" << std::endl;
 
     // Create rendering thread
     std::cout << "Creando hilo de renderizado" << std::endl;
 
-    renderThread = SDL_CreateThread(draw_task, "RenderThread", window);
-    if(renderThread == nullptr)
-    {
-        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
-        goto DESTROY_WINDOW;
-    }
-    std::cout << "Hilo de renderizado creado" << std::endl;
+//    renderThread = SDL_CreateThread(draw_task, "RenderThread", window);
+//    if(renderThread == nullptr)
+//    {
+//        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
+//        goto DESTROY_WINDOW;
+//    }
+//    std::cout << "Hilo de renderizado creado" << std::endl;
 
     // Create event handling thread
     std::cout << "Creando hilo de eventos" << std::endl;
@@ -98,7 +99,7 @@ int main(int argc, char** argv) {
     {
         std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
         running = false;
-        SDL_WaitThread(renderThread, nullptr);
+//        SDL_WaitThread(renderThread, nullptr);
         goto CLEAN_UP;
     }
     std::cout << "hilo de eventos creado" << std::endl;
@@ -108,17 +109,17 @@ int main(int argc, char** argv) {
     {
         std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
         running = false;
-        SDL_WaitThread(renderThread, nullptr);
+//        SDL_WaitThread(renderThread, nullptr);
         SDL_WaitThread(eventThread, nullptr);
         goto CLEAN_UP;
     }
 
     // Wait for event handling thread to exit
     SDL_WaitThread(eventThread, nullptr);
-    SDL_WaitThread(renderThread, nullptr);
+//    SDL_WaitThread(renderThread, nullptr);
     c->Stop();
     SDL_WaitThread(controllerThread, nullptr);
-
+    ViewService::instance.stop();
     std::cout << "Hilos finalizados" << std::endl;
 
 CLEAN_UP:

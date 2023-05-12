@@ -388,6 +388,10 @@ void    LCD_init(SDL_Renderer *_renderer)
     renderSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
     SDL_FillRect(renderSurface, NULL, SDL_MapRGB(renderSurface->format, 255, 255, 255));
 }
+void LCD_configure()
+{
+    printf("LCD Configurado\n");
+}
 void    LCD_deinit()
 {
     SDL_FreeSurface(bitmapSurface);
@@ -475,17 +479,17 @@ void    LCD_clear()
 
 void    LCD_print()
 {
-    SDL_BlitSurface(bitmapSurface, NULL, renderSurface, NULL);
+//    SDL_BlitSurface(bitmapSurface, NULL, renderSurface, NULL);
 
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     
     // Create a texture from the bitmap surface
-    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, renderSurface);
+    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, bitmapSurface);
 
     // Draw the bitmap texture to the renderer
-    SDL_Rect bitmapRect = { 0, 0, renderSurface->w, renderSurface->h };
+    SDL_Rect bitmapRect = { 0, 0, bitmapSurface->w, bitmapSurface->h };
     SDL_RenderCopy(renderer, bitmapTexture, NULL, &bitmapRect);
     
     // Present the renderer
@@ -530,7 +534,7 @@ static unsigned char* LCD_get_char(unsigned char c, const LCD_Font *font){
     }
 }
 
-uint8_t LCD_color_inverse(uint8_t color)
+uint8_t LCD_invert_color(uint8_t color)
 {
     return 255 - color;
 }

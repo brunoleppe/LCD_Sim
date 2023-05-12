@@ -3,7 +3,6 @@
 //
 
 #include "TextBox.h"
-#include <memory>
 
 TextBox::TextBox(int x, int y, int width, int height, uint8_t back, uint8_t fore, const char *str, LCD_Fonts font)
         : Composite(x,y,width, height), alignment(Text_Center),

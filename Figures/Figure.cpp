@@ -29,8 +29,8 @@ Size Figure::get_size() {
 }
 
 void Figure::invert_colors() {
-    backColor = LCD_color_inverse(backColor);
-    foreColor = LCD_color_inverse(foreColor);
+    backColor = LCD_invert_color(static_cast<LCD_COLOR>(backColor));
+    foreColor = LCD_invert_color(static_cast<LCD_COLOR>(foreColor));
 }
 
 Figure::~Figure() = default;

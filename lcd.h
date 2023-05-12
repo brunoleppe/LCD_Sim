@@ -38,7 +38,7 @@ extern "C"{
 #endif
 
 void LCD_init(SDL_Renderer *renderer);
-
+void LCD_configure();
 void LCD_deinit();
 
 void LCD_draw_point(int x, int y, uint8_t color);
@@ -63,7 +63,7 @@ void LCD_print();
 
 const LCD_Font* LCD_get_font(LCD_Fonts font);
 
-uint8_t LCD_color_inverse(uint8_t color);
+uint8_t LCD_invert_color(uint8_t color);
 
 #ifdef __cplusplus
 }
