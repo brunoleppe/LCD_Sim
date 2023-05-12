@@ -9,14 +9,6 @@
 
 bool running = true;
 
-
-int draw_task(void* data){
-    while (running) {
-        LCD_print();
-        SDL_Delay(30);
-    }
-    return 0;
-}
 int input_task(void *data) {
     SDL_Event event;
     unsigned int elapsed;
@@ -55,7 +47,7 @@ int main(int argc, char** argv) {
     setlocale(LC_ALL, "es_EC.UTF-8");
     (void)argc;
     (void)argv;
-    SDL_Thread *renderThread, *eventThread, *controllerThread;
+    SDL_Thread *eventThread, *controllerThread;
     // Create a window
     SDL_Window* window = SDL_CreateWindow("My Window", 100, 100, 480, 256, SDL_WINDOW_SHOWN);
     if (window == nullptr) {
@@ -80,17 +72,6 @@ int main(int argc, char** argv) {
 
     std::cout << "MVC iniciado" << std::endl;
 
-    // Create rendering thread
-    std::cout << "Creando hilo de renderizado" << std::endl;
-
-//    renderThread = SDL_CreateThread(draw_task, "RenderThread", window);
-//    if(renderThread == nullptr)
-//    {
-//        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
-//        goto DESTROY_WINDOW;
-//    }
-//    std::cout << "Hilo de renderizado creado" << std::endl;
-
     // Create event handling thread
     std::cout << "Creando hilo de eventos" << std::endl;
 
@@ -99,7 +80,6 @@ int main(int argc, char** argv) {
     {
         std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
         running = false;
-//        SDL_WaitThread(renderThread, nullptr);
         goto CLEAN_UP;
     }
     std::cout << "hilo de eventos creado" << std::endl;
@@ -109,14 +89,12 @@ int main(int argc, char** argv) {
     {
         std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
         running = false;
-//        SDL_WaitThread(renderThread, nullptr);
         SDL_WaitThread(eventThread, nullptr);
         goto CLEAN_UP;
     }
 
     // Wait for event handling thread to exit
     SDL_WaitThread(eventThread, nullptr);
-//    SDL_WaitThread(renderThread, nullptr);
     c->Stop();
     SDL_WaitThread(controllerThread, nullptr);
     ViewService::instance.stop();
