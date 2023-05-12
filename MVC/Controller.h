@@ -12,14 +12,14 @@
 #include "MVC/Views/ViewService.h"
 #include <queue>
 
-class Controller : public Observer{
+class Controller : public InputEventObserver{
 public:
 
     Controller(ModelStateService* s, ViewService* v);
 
     void Stop();
 
-    void update(Subject *subject) override;
+    void update() override;
     static int controller_task(void *data);
 
 private:
@@ -27,6 +27,7 @@ private:
     ViewService *view;
 
     std::queue<InputEvent> queue;
+
 
     bool running;
 };

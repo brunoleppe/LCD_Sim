@@ -7,10 +7,13 @@
 #include "ControllerInputEvent.h"
 #include "Input/virtual_term.h"
 
-void Controller::update(Subject *subject) {
-    if(subject->get_type() == SUBJECT_TYPE_INPUT) {
-        queue.push(((InputSubject *) subject)->get_data());
-    }
+#include <cstdio>
+
+void Controller::update() {
+//    if(subject->get_type() == SUBJECT_TYPE_INPUT) {
+//        queue.push(((InputSubject *) subject)->get_data());
+//    }
+    queue.push(inputSubject->get_data());
 }
 
 Controller::Controller(ModelStateService* s, ViewService* v) : model(s), view(v), running(true)
@@ -22,7 +25,6 @@ int Controller::controller_task(void *data) {
     c->view->update();
     while(c->running){
         if(!c->queue.empty()){
-
             auto evt = c->queue.front();
             ControllerInputEvent cEvt = {.event = evt.value};
             int res;
@@ -39,7 +41,7 @@ int Controller::controller_task(void *data) {
                 cEvt.code = res;
             }
 
-            c->view->set_event(cEvt);
+//            c->view->set_event(cEvt);
             if(c->model->on_event(cEvt)) {
                 c->view->set_message(c->model->get_data());
                 c->view->update();

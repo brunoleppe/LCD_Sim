@@ -72,10 +72,9 @@ int main(int argc, char** argv) {
 
     std::cout << "SDL iniciado" << std::endl;
 
-    auto *v = new ViewService();
     auto *s = new ModelStateService();
     s->set_state(&StateMainMenu::instance);
-    auto *c = new Controller(s, v);
+    auto *c = new Controller(s, &ViewService::instance);
     input_register(c);
 
     std::cout << "MVC iniciado" << std::endl;
@@ -132,7 +131,6 @@ DESTROY_WINDOW:
     std::cout << "SDL finalizado" << std::endl;
 
     delete c;
-    delete v;
     delete s;
     return 0;
 }

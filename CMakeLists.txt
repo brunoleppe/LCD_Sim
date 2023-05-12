@@ -13,13 +13,50 @@ include_directories(${SDL2_INCLUDE_DIRS})
 add_executable(LCDTest
         lcd.c
         lcd.h
-#        test.c
-        Figures/Figure.cpp Figures/Figure.h Figures/Label.cpp Figures/Label.h main.cpp Figures/Drawable.h
-        Figures/Composite.h Figures/Box.cpp Figures/Box.h Figures/TextBox.cpp Figures/TextBox.h Figures/Window.h
-        Figures/MenuWindow.cpp Figures/MenuWindow.h Figures/make_unique.h Input/input_cpp.h MVC/Controller.cpp
-        MVC/Controller.h Input/input.cpp MVC/Model.cpp MVC/Model.h MVC/Views/View.h threads.cpp threads.h
-        MVC/ModelStateService.h MVC/States/StateMainMenu.cpp MVC/States/StateMainMenu.h
-        MVC/States/StateOptionMenu.cpp MVC/States/StateOptionMenu.h MVC/MessagePacket.h MVC/StateMachine.h input.h MVC/Views/ViewService.h MVC/Views/View.cpp MVC/ControllerInputEvent.h Input/virtual_term.h Input/virtual_term.cpp Figures/ItemBox.cpp Figures/ItemBox.h DataTypes/Item.cpp DataTypes/Item.h)
+        main.cpp
+        input.h
+
+        Figures/Figure.cpp
+        Figures/Figure.h
+        Figures/Label.cpp
+        Figures/Label.h
+        Figures/Drawable.h
+        Figures/Composite.h
+        Figures/Box.cpp Figures/Box.h
+        Figures/TextBox.cpp
+        Figures/TextBox.h
+        Figures/Window.h
+        Figures/MenuWindow.cpp
+        Figures/MenuWindow.h
+        Figures/make_unique.h
+        Figures/ItemBox.cpp
+        Figures/ItemBox.h
+
+        Input/input_cpp.h
+        Input/input.cpp
+        Input/virtual_term.h
+        Input/virtual_term.cpp
+        MVC/Controller.cpp
+        MVC/Controller.h
+        MVC/Model.cpp MVC/Model.h
+        MVC/Views/View.h
+        MVC/ModelStateService.h
+        MVC/States/StateMainMenu.cpp
+        MVC/States/StateMainMenu.h
+        MVC/States/StateOptionMenu.cpp
+        MVC/States/StateOptionMenu.h
+        MVC/MessagePacket.h
+        MVC/StateMachine.h
+        MVC/Views/ViewService.h
+        MVC/Views/View.cpp
+        MVC/ControllerInputEvent.h
+        DataTypes/Item.cpp
+        DataTypes/Item.h
+        DataTypes/Observer.h
+        MVC/Views/ViewService.cpp
+        MVC/Views/ViewService.cpp
+
+        )
 
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)

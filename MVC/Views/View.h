@@ -11,6 +11,8 @@
 #include "input.h"
 #include "DataTypes/Item.h"
 #include "MVC/ControllerInputEvent.h"
+#include "DataTypes/Observer.h"
+#include "Input/virtual_term.h"
 
 class View {
 public:
@@ -26,8 +28,27 @@ public:
 
     void set_message(MessagePacket *msg);
 
-private:
+    void set_subject(Subject<InputEvent> *s){
+        subject = s;
+    }
+
+    void on_event(InputEvent& evt){
+        subject->set_data(evt);
+        int res;
+        if((res = is_alpha(evt.code))){
+            on_alpha_key(evt.value, char(res));
+        }
+        else if((res = is_numeric(evt.code))){
+            on_numeric_key(evt.value, (char)res);
+        }
+        else if((res = is_control(evt.code))){
+            on_control_key(evt.value, (ControlType)res);
+        }
+    }
+
+protected:
     MessagePacket *msg;
+    Subject<InputEvent> *subject;
 };
 
 class MenuView : public View{
@@ -56,10 +77,23 @@ public:
 
     void on_alpha_key(INPUT_EVENTS evt, char alpha) override {
         (void)evt;
+
     }
 
     void on_numeric_key(INPUT_EVENTS evt, char num) override {
-        window.focus(num - '0');
+        if(evt == INPUT_EVENT_PRESSED) {
+            window.focus(num - '0');
+        }
+        else if(evt == INPUT_EVENT_CLICKED){
+            InputEvent  i = {
+                    .code = SDL_SCANCODE_RETURN,
+                    .value = evt,
+            };
+            subject->set_data(i);
+            subject->notify();
+        }
+        draw();
+
     }
 
     void on_symbol_key(INPUT_EVENTS evt) override {
@@ -67,7 +101,7 @@ public:
     }
 
     void on_control_key(INPUT_EVENTS evt, ControlType c) override {
-
+        subject->notify();
     }
 
 

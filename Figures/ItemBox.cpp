@@ -38,10 +38,14 @@ void ListItemBox::draw() {
     int limit = (int)items->size() > maxItemsInView ? maxItemsInView : (int)items->size();
     for( int i=0; i<limit; i++){
         ListItem *item = (ListItem*)(*items)[i];
-        uint8_t color = foreColor;
-        if(item->get_focus())
-            color = LCD_color_inverse(color);
-        LCD_draw_string(x+2, startPos+4, item->get_cstring(), LCD_FONT_SMALL, color);
+        uint8_t fcolor = foreColor;
+        uint8_t bcolor = backColor;
+        if(item->get_focus()) {
+            fcolor = LCD_color_inverse(fcolor);
+            bcolor = LCD_color_inverse(bcolor);
+        }
+        LCD_draw_fill(x+2, startPos+2, 16, w - 4, bcolor);
+        LCD_draw_string(x+4, startPos+4, item->get_cstring(), LCD_FONT_SMALL, fcolor);
         startPos += 20;
     }
 }

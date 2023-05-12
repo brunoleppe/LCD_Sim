@@ -25,6 +25,7 @@
 
 static SDL_Renderer *renderer;
 static SDL_Surface* bitmapSurface;
+static SDL_Surface* renderSurface;
 // <editor-fold defaultstate="collapsed" desc="fonts">
 // <editor-fold defaultstate="collapsed" desc="Normal">
 static const unsigned char font_normal[] 	= {
@@ -384,10 +385,13 @@ void    LCD_init(SDL_Renderer *_renderer)
     renderer = _renderer;
     bitmapSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
     SDL_FillRect(bitmapSurface, NULL, SDL_MapRGB(bitmapSurface->format, 255, 255, 255));
+    renderSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
+    SDL_FillRect(renderSurface, NULL, SDL_MapRGB(renderSurface->format, 255, 255, 255));
 }
 void    LCD_deinit()
 {
     SDL_FreeSurface(bitmapSurface);
+    SDL_FreeSurface(renderSurface);
 }
 void    LCD_draw_point  (int x, int y, uint8_t color)
 {
@@ -471,14 +475,17 @@ void    LCD_clear()
 
 void    LCD_print()
 {
+    SDL_BlitSurface(bitmapSurface, NULL, renderSurface, NULL);
+
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     
     // Create a texture from the bitmap surface
-    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, bitmapSurface);
+    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, renderSurface);
 
     // Draw the bitmap texture to the renderer
-    SDL_Rect bitmapRect = { 0, 0, bitmapSurface->w, bitmapSurface->h };
+    SDL_Rect bitmapRect = { 0, 0, renderSurface->w, renderSurface->h };
     SDL_RenderCopy(renderer, bitmapTexture, NULL, &bitmapRect);
     
     // Present the renderer
