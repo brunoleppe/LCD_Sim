@@ -16,8 +16,7 @@ protected:
 public:
     virtual void on_enter(){};
     virtual void on_exit(){};
-    virtual void on_task(){};
-    virtual void on_event(ControllerInputEvent &evt) {};
+    virtual bool on_event(ControllerInputEvent &evt) {return false;};
     virtual ~State() = default;
 
 };

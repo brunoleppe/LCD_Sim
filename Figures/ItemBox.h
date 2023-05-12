@@ -6,40 +6,30 @@
 #define LCDTEST_ITEMBOX_H
 
 #include <vector>
+#include <string>
 #include "Figure.h"
-
-class Item{
-private:
-    int index;
-    bool selected;
-public:
-    int get_index(){
-        return index;
-    }
-    bool get_selected(){
-        return selected;
-    }
-    void set_selected(bool s){
-        selected = s;
-    }
-};
+#include "DataTypes/Item.h"
 
 class ItemBox : public Figure{
 protected:
-    std::vector<Item*> items;
+    std::vector<Item*> *items = nullptr;
 public:
     ItemBox(int x, int y, int width, int height, uint8_t back, uint8_t fore);
-
-public:
     ~ItemBox() override;
     void add(Item* i);
+    void clear();
 };
+
+
 
 class ListItemBox : public ItemBox{
 public:
     void draw() override;
-
+    void add(std::vector<Item*>& items);
     ListItemBox(int x, int y, int width, int height, uint8_t back, uint8_t fore);
+
+    void focus(int i);
+
 private:
     int count;
     int maxItemsInView;

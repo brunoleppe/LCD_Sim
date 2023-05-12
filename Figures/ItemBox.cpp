@@ -5,22 +5,72 @@
 #include "ItemBox.h"
 
 ItemBox::~ItemBox() {
-    for(auto i : items)
+    if(items == nullptr)
+        return;
+
+    for(auto i : *items)
         delete i;
 }
 
 void ItemBox::add(Item *i) {
-    items.push_back(i);
+    items->push_back(i);
 }
 
 ItemBox::ItemBox(int x, int y, int width, int height, uint8_t back, uint8_t fore) :
         Figure(x, y, width, height, back, fore)
 {}
 
-void ListItemBox::draw() {
+void ItemBox::clear() {
+    if(items == nullptr)
+        return;
 
+    while(!items->empty()){
+        items->pop_back();
+    }
+
+}
+
+void ListItemBox::draw() {
+    if(items == nullptr)
+        return;
+
+    int startPos = y;
+    int limit = (int)items->size() > maxItemsInView ? maxItemsInView : (int)items->size();
+    for( int i=0; i<limit; i++){
+        ListItem *item = (ListItem*)(*items)[i];
+        uint8_t color = foreColor;
+        if(item->get_focus())
+            color = LCD_color_inverse(color);
+        LCD_draw_string(x+2, startPos+4, item->get_cstring(), LCD_FONT_SMALL, color);
+        startPos += 20;
+    }
 }
 
 ListItemBox::ListItemBox(int x, int y, int width, int height, uint8_t back, uint8_t fore) :
         ItemBox(x, y, width, height, back, fore)
-{}
+{
+    maxItemsInView = h/20;
+    count = 0;
+    startIndex = 0;
+
+}
+
+void ListItemBox::add(std::vector<Item*>& _items) {
+    items = &_items;
+    count = _items.size();
+}
+
+void ListItemBox::focus(int i) {
+    if(items == nullptr)
+        return;
+    if(i < (int)items->size()){
+        for(auto item : *items){
+            if(item->get_index() == i){
+                item->set_focus(true);
+            }
+            else{
+                item->set_focus(false);
+            }
+        }
+    }
+}

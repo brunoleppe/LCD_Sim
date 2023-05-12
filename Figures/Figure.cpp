@@ -10,7 +10,7 @@ Figure::Figure(int x, int y, uint8_t back, uint8_t fore)
 
 }
 Figure::Figure(int x, int y, int width, int height, uint8_t back, uint8_t fore)
-        : Drawable(x,x,width,height,back,fore)
+        : Drawable(x,y,width,height,back,fore)
 {
 
 }

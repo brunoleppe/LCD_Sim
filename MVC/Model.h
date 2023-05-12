@@ -16,11 +16,11 @@
 
 class Model : public State{
 protected:
-    explicit Model(MessagePacket *data) : data(data) {}
-    MessagePacket *data;
+    explicit Model(){}
+    MessagePacket data;
 public:
-    MessagePacket *get_data(){
-        return data;
+    MessagePacket* get_data(){
+        return &data;
     }
 };
 

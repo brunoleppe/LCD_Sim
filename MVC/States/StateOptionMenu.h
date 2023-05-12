@@ -12,9 +12,8 @@ class StateOptionMenu : public Model{
 public:
     StateOptionMenu();
     static StateOptionMenu instance;
-    void on_event(ControllerInputEvent &evt) override;
+    bool on_event(ControllerInputEvent &evt) override;
 private:
-    MenuMessagePacket stateData;
 };
 
 

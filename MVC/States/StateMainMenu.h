@@ -12,11 +12,8 @@
 class StateMainMenu : public Model{
 public:
     StateMainMenu();
-    void on_event(ControllerInputEvent &evt) override;
+    bool on_event(ControllerInputEvent &evt) override;
     static StateMainMenu instance;
-private:
-    MenuMessagePacket stateData;
-
 };
 
 

@@ -58,10 +58,16 @@ int main(int argc, char** argv) {
     SDL_Thread *renderThread, *eventThread, *controllerThread;
     // Create a window
     SDL_Window* window = SDL_CreateWindow("My Window", 100, 100, 480, 256, SDL_WINDOW_SHOWN);
+    if (window == nullptr) {
+        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
     // Create renderer for window
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
     // Set the color of the screen to white
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
     LCD_init(renderer);
 
     std::cout << "SDL iniciado" << std::endl;
@@ -73,13 +79,6 @@ int main(int argc, char** argv) {
     input_register(c);
 
     std::cout << "MVC iniciado" << std::endl;
-
-
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
 
     // Create rendering thread
     std::cout << "Creando hilo de renderizado" << std::endl;

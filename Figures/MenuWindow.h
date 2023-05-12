@@ -7,6 +7,7 @@
 
 #include "Window.h"
 #include "TextBox.h"
+#include "ItemBox.h"
 
 class MenuWindow : public Window {
 public:
@@ -15,13 +16,15 @@ public:
 
     ~MenuWindow() override;
 
-    void add_item(const char *str);
+    void add_item(std::vector<Item*>& items);
+    void clear_items();
+
+    void focus(int i);
 
 private:
     TextBox titleBox;
-    Window area;
+    ListItemBox listBox;
     Window optionBox;
-    std::vector<Drawable*> items;
 };
 
 

@@ -9,16 +9,20 @@
 #include "Figures/MenuWindow.h"
 #include "MVC/MessagePacket.h"
 #include "input.h"
+#include "DataTypes/Item.h"
+#include "MVC/ControllerInputEvent.h"
 
 class View {
 public:
     virtual void draw() = 0;
     virtual ~View() = default;
 
-    virtual void on_alpha_key(INPUT_EVENTS evt) = 0;
-    virtual void on_numeric_key(INPUT_EVENTS evt) = 0;
+    virtual void on_alpha_key(INPUT_EVENTS evt, char alpha) = 0;
+    virtual void on_numeric_key(INPUT_EVENTS evt, char num) = 0;
     virtual void on_symbol_key(INPUT_EVENTS evt) = 0;
-    virtual void on_control_key(INPUT_EVENTS evt)=0;
+    virtual void on_control_key(INPUT_EVENTS evt, ControlType c)=0;
+
+    virtual void clean() = 0;
 
     void set_message(MessagePacket *msg);
 
@@ -40,24 +44,29 @@ public:
     void set_title(const char *str){
         window.set_title(str);
     }
-    void set_items(std::vector<const char*>& items){
+    void set_items(std::vector<Item*>& items){
+        window.add_item(items);
+
 
     }
 
+    void clean() override {
+        window.clear_items();
+    }
 
-    void on_alpha_key(INPUT_EVENTS evt) override {
+    void on_alpha_key(INPUT_EVENTS evt, char alpha) override {
         (void)evt;
     }
 
-    void on_numeric_key(INPUT_EVENTS evt) override {
-
+    void on_numeric_key(INPUT_EVENTS evt, char num) override {
+        window.focus(num - '0');
     }
 
     void on_symbol_key(INPUT_EVENTS evt) override {
         (void)evt;
     }
 
-    void on_control_key(INPUT_EVENTS evt) override {
+    void on_control_key(INPUT_EVENTS evt, ControlType c) override {
 
     }
 

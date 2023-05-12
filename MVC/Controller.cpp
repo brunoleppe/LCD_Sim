@@ -40,9 +40,11 @@ int Controller::controller_task(void *data) {
             }
 
             c->view->set_event(cEvt);
-            c->model->on_event(cEvt);
-            c->view->set_message(c->model->get_data());
-            c->view->update();
+            if(c->model->on_event(cEvt)) {
+                c->view->set_message(c->model->get_data());
+                c->view->update();
+            }
+
             c->queue.pop();
         }
         SDL_Delay(10);

@@ -6,13 +6,13 @@
 
 MenuWindow::MenuWindow(const char *title) :
         titleBox(0,0,w,20,foreColor,backColor,title,LCD_FONT_SMALL, Text_Left, false),
-        area(w,88),
+        listBox(0,20,w,88,backColor,foreColor),
         optionBox(w,20,WindowHor_Center, WindowVer_Bottom)
 {
 
     add(&titleBox);
     add(&optionBox);
-    add(&area);
+    add(&listBox);
 }
 
 void MenuWindow::set_title(const char *title) {
@@ -23,7 +23,14 @@ MenuWindow::~MenuWindow() {
 
 }
 
-void MenuWindow::add_item(const char *str) {
-    auto l = new Label(0,0,LCD_COLOR_WHITE, LCD_COLOR_BLACK, str, LCD_FONT_MEDIUM);
+void MenuWindow::add_item(std::vector<Item*>& _items) {
+    listBox.add(_items);
+}
 
+void MenuWindow::clear_items() {
+    listBox.clear();
+}
+
+void MenuWindow::focus(int i) {
+    listBox.focus(i);
 }

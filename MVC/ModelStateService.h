@@ -9,8 +9,8 @@
 
 class ModelStateService : public StateMachine {
 public:
-    void on_event(ControllerInputEvent& evt){
-        ((Model *) state)->on_event(evt);
+    bool on_event(ControllerInputEvent& evt){
+        return ((Model *) state)->on_event(evt);
     }
     MessagePacket* get_data(){
         return ((Model*)state)->get_data();
