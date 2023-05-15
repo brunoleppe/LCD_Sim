@@ -4,6 +4,7 @@
 #include "lcd.h"
 #include <string.h>
 #include <stdint.h>
+#include <stdio.h>
 /**********************************************************************
 * Module Preprocessor Constants
 **********************************************************************/
@@ -387,6 +388,7 @@ void    LCD_init(SDL_Renderer *_renderer)
     SDL_FillRect(bitmapSurface, NULL, SDL_MapRGB(bitmapSurface->format, 255, 255, 255));
     renderSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
     SDL_FillRect(renderSurface, NULL, SDL_MapRGB(renderSurface->format, 255, 255, 255));
+    printf("Size = %d\n", bitmapSurface->w * bitmapSurface->h);
 }
 void LCD_configure()
 {
@@ -402,6 +404,7 @@ void    LCD_draw_point  (int x, int y, uint8_t color)
     int rgb = color;
 
     SDL_LockSurface(bitmapSurface);
+
 
     Uint32* pixels = (Uint32*) bitmapSurface->pixels;
     pixels[2*x + 2* y * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
@@ -470,6 +473,15 @@ void    LCD_draw_string (int x, int y, const char *str, LCD_Fonts f, uint8_t col
         LCD_draw_char(x, y,str[i], f, color);
         x+=space+font->cols;
     }
+}
+
+void LCD_draw_bitmap(int x, int y, const uint8_t *bitmap, size_t bitmap_size)
+{
+    LCD_draw_fill(0,0,128,240, LCD_COLOR_WHITE);
+    LCD_draw_string(0,0,"BITMAP", LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
+    char buffer[32] = "";
+    sprintf(buffer,"%d",(int)bitmap_size);
+    LCD_draw_string(0,32,buffer, LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
 }
 
 void    LCD_clear()

@@ -56,7 +56,7 @@ add_executable(LCDTest
         MVC/Views/ViewService.cpp
         MVC/Views/ViewService.cpp
 
-        )
+        DataTypes/ItemList.cpp DataTypes/ItemList.h DataTypes/LabelItem.cpp DataTypes/LabelItem.h DataTypes/Bitmap.cpp DataTypes/Bitmap.h DataTypes/BitmapItem.cpp DataTypes/BitmapItem.h DataTypes/ItemList.cpp MVC/States/StateLogoScreen.cpp MVC/States/StateLogoScreen.h MVC/Views/MenuView.cpp MVC/Views/MenuView.h MVC/Views/LogoView.cpp MVC/Views/LogoView.h DataTypes/LogoItem.cpp DataTypes/LogoItem.h)
 
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)

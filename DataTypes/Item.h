@@ -7,6 +7,8 @@
 
 
 #include <string>
+#include <list>
+#include <vector>
 
 class Item{
 protected:
@@ -17,8 +19,8 @@ protected:
     bool selected;
     bool focused;
 public:
-    int get_index();
-    bool get_selected();
+    int get_index() const;
+    bool get_selected() const;
     void set_selected(bool s){
         selected = s;
     }
@@ -28,14 +30,9 @@ public:
     bool get_focus(){
         return focused;
     }
+
+    virtual ~Item();
 };
 
-class ListItem : public Item{
-private:
-    std::string s;
-public:
-    ListItem(int index, const char* s) : Item(index), s(s){}
-    const char* get_cstring();
-};
 
 #endif //LCDTEST_ITEM_H

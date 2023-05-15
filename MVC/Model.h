@@ -16,6 +16,7 @@ class Model : public State{
 protected:
     explicit Model(){}
     MessagePacket data;
+
 public:
     MessagePacket* get_data(){
         return &data;

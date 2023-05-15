@@ -4,14 +4,13 @@
 
 #include "Item.h"
 
-int Item::get_index() {
+int Item::get_index() const {
     return index;
 }
 
-bool Item::get_selected() {
+bool Item::get_selected() const {
     return selected;
 }
 
-const char *ListItem::get_cstring() {
-    return s.c_str();
-}
+Item::~Item() = default;
+

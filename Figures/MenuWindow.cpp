@@ -23,8 +23,8 @@ MenuWindow::~MenuWindow() {
 
 }
 
-void MenuWindow::add_item(std::vector<Item*>& _items) {
-    listBox.add(_items);
+void MenuWindow::add_items(ItemList &items) {
+    listBox.add(items);
 }
 
 void MenuWindow::clear_items() {
@@ -41,4 +41,26 @@ void MenuWindow::focus_next() {
 
 void MenuWindow::focus_prev() {
     listBox.focus_prev();
+}
+
+bool MenuWindow::get_valid_item(int i) {
+    return listBox.items->get_current()->get_index() == i;
+}
+
+void MenuWindow::select_item(int i) {
+    for(auto item : listBox.items->items){
+        if(item->get_index() == i){
+            item->set_selected(true);
+            continue;
+        }
+        item->set_selected(false);
+    }
+    (*listBox.items)[i]->set_selected(true);
+}
+
+void MenuWindow::select_item() {
+    for(auto item : listBox.items->items){
+        item->set_selected(false);
+    }
+    listBox.items->get_current()->set_selected(true);
 }

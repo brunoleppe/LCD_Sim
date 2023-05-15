@@ -6,6 +6,7 @@
 #include "MVC/Controller.h"
 #include "MVC/States/StateMainMenu.h"
 #include "input.h"
+#include "MVC/States/StateLogoScreen.h"
 
 bool running = true;
 
@@ -38,6 +39,7 @@ int input_task(void *data) {
                 input_report_key(event.key.keysym.scancode, INPUT_EVENT_LONG_LONG_CLICKED);
             }
         }
+        SDL_Delay(20);
     }
     return 0;
 }
@@ -65,9 +67,9 @@ int main(int argc, char** argv) {
     std::cout << "SDL iniciado" << std::endl;
 
     auto *s = new ModelStateService();
-    s->set_state(&StateMainMenu::instance);
+    s->set_state(&StateLogoScreen::instance);
     auto *c = new Controller(s, &ViewService::instance);
-    input_register(c);
+//    input_register(c);
     ViewService::instance.start();
 
     std::cout << "MVC iniciado" << std::endl;
@@ -104,7 +106,6 @@ CLEAN_UP:
     LCD_deinit();
     // Clean up and quit SDL
     SDL_DestroyRenderer(renderer);
-DESTROY_WINDOW:
     SDL_DestroyWindow(window);
     SDL_Quit();
     std::cout << "SDL finalizado" << std::endl;

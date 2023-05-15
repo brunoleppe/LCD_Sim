@@ -5,7 +5,9 @@
 #ifndef LCDTEST_STATEMACHINE_H
 #define LCDTEST_STATEMACHINE_H
 
+#include <SDL_thread.h>
 #include "ControllerInputEvent.h"
+#include "DataTypes/Observer.h"
 
 class StateMachine;
 
@@ -24,6 +26,7 @@ public:
 class StateMachine{
 protected:
     State *state = nullptr;
+    Subject<InputEvent> subject;
 public:
     void set_state(State *next){
         next->on_enter();
@@ -35,7 +38,10 @@ public:
         next->on_enter();
         state = next;
         state->context = this;
-
     }
+    void stop(){
+        state->on_exit();
+    }
+
 };
 #endif //LCDTEST_STATEMACHINE_H

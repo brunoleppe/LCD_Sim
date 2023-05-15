@@ -16,8 +16,11 @@ public:
 
     ~MenuWindow() override;
 
-    void add_item(std::vector<Item*>& items);
+    void add_items(ItemList &items);
     void clear_items();
+    bool get_valid_item(int i);
+    void select_item(int i);
+    void select_item();
 
     void focus(int i);
     void focus_next();
