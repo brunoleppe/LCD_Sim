@@ -5,7 +5,6 @@
 #ifndef LCDTEST_MODEL_H
 #define LCDTEST_MODEL_H
 
-#include <queue>
 #include <vector>
 #include <string>
 #include "MessagePacket.h"
