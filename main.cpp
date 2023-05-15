@@ -16,8 +16,8 @@ int input_task(void *data) {
     unsigned int initialTime;
     unsigned int finalTime;
     while (running) {
-        if (!SDL_PollEvent(&event))
-            continue;
+        SDL_WaitEvent(&event);
+
         if (event.type == SDL_QUIT)
             running = false;
         if(event.key.repeat != 0)
