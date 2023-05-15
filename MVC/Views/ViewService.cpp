@@ -14,17 +14,14 @@ void ViewService::set_message(MessagePacket *m) {
         v = &LogoView::instance;
     }
 
-
-
     v->set_title(m->title);
     v->set_items(m->items);
     v->set_options(m->options);
     v->set_subject(&subject);
-
+    v->update();
 }
 
 ViewService::ViewService() : mss(nullptr){
-    v = &MenuView::instance;
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
     queue = xQueueCreate(5,sizeof(InputEvent));
     xTaskCreate(ViewService::task, "view_task", 1024, nullptr, 2, nullptr);

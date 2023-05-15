@@ -55,7 +55,7 @@ void LCD_draw_char(int x, int y, char c, LCD_Fonts font, uint8_t color);
 
 void LCD_draw_string(int x, int y, const char *str, LCD_Fonts font, uint8_t color);
 
-void LCD_draw_bitmap(int x, int y, const uint8_t *bitmap, size_t bitmap_size);
+void LCD_draw_bitmap (int x, int y, int width, int height, const uint8_t *bitmap);
 
 void LCD_clear();
 

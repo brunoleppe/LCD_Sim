@@ -8,7 +8,6 @@
 
 StateLogoScreen::StateLogoScreen() {
     data.messageType = MESSAGE_TYPE_LOGO;
-    data.items.add(new LogoItem(0, 1,1, nullptr));
 }
 
 bool StateLogoScreen::on_event(ControllerInputEvent &evt) {
@@ -26,12 +25,16 @@ bool StateLogoScreen::on_event(ControllerInputEvent &evt) {
 
 void StateLogoScreen::on_enter() {
     running = true;
+    bmp = new uint8_t[800];
+    memset(bmp,0x0F,800);
+    data.items.add(new LogoItem(0,20,20,40,20,bmp));
     thread = SDL_CreateThread(task, "logo_task", this);
 }
 
 void StateLogoScreen::on_exit() {
     running = false;
-    SDL_WaitThread(thread, nullptr);
+    data.items.clear();
+    delete bmp;
 }
 
 int StateLogoScreen::task(void *data) {
@@ -40,17 +43,15 @@ int StateLogoScreen::task(void *data) {
     bool change = false;
     while(state->running){
         SDL_Delay(10);
-        if(++counter == 100){
+        if(++counter == 200){
             counter = 0;
             auto item = (LogoItem*)state->data.items.items.front();
             if(!change){
-                item->width = 1;
-                item->height = 2;
+                memset(state->bmp,0x00,800);
                 change = true;
             }
             else{
-                item->width = 1;
-                item->height = 1;
+                memset(state->bmp,0x0F,800);
                 change = false;
             }
             input_report_key(SDL_SCANCODE_BACKSPACE, INPUT_EVENT_CLICKED);

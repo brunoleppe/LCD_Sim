@@ -475,13 +475,26 @@ void    LCD_draw_string (int x, int y, const char *str, LCD_Fonts f, uint8_t col
     }
 }
 
-void LCD_draw_bitmap(int x, int y, const uint8_t *bitmap, size_t bitmap_size)
+void    LCD_draw_bitmap (int x, int y, int width, int height, const uint8_t *bitmap)
 {
-    LCD_draw_fill(0,0,128,240, LCD_COLOR_WHITE);
-    LCD_draw_string(0,0,"BITMAP", LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
-    char buffer[32] = "";
-    sprintf(buffer,"%d",(int)bitmap_size);
-    LCD_draw_string(0,32,buffer, LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
+
+        for(int i=0;i<height;i++){
+            for(int j=0;j<width;j++){
+
+                uint8_t byte = bitmap[x+j];
+                uint8_t color = byte >> (4 * (((x+j) & 1)^1));
+
+
+
+                LCD_draw_point(x+j,i+y, (color << 4) +0x0F);
+            }
+        }
+
+//    LCD_draw_fill(0,0,128,240, LCD_COLOR_WHITE);
+//    LCD_draw_string(0,0,"BITMAP", LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
+//    char buffer[32] = "";
+//    sprintf(buffer,"%d",(int)width*height);
+//    LCD_draw_string(0,32,buffer, LCD_FONT_MEDIUM, LCD_COLOR_BLACK);
 }
 
 void    LCD_clear()

@@ -20,6 +20,7 @@ public:
     bool running;
     static int task(void *data);
     SDL_Thread* thread;
+    uint8_t *bmp;
 };
 
 
