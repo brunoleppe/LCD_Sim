@@ -9,6 +9,7 @@
 #else
 #include "Input/virtual_term.h"
 #endif
+
 void Controller::update() {
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
     xQueueSend(queue, &inputSubject->get_data(),portMAX_DELAY);
@@ -39,9 +40,11 @@ Controller::controller_task(void *data) {
         if(xQueueReceive(c->queue, &evt, portMAX_DELAY)){
 #else
         SDL_Delay(20);
-        if(!c->queue.empty()){
-            evt = c->queue.front();
-            c->queue.pop();
+//        if(!c->queue.empty()){
+//            evt = c->queue.front();
+//            c->queue.pop();
+        if(true){
+            evt = c->queue.pop();
 #endif
             ControllerInputEvent cEvt = {.event = (INPUT_EVENTS)evt.value};
             cEvt.type = INPUT_EVENT_TYPE_CONTROL;
@@ -58,7 +61,13 @@ Controller::controller_task(void *data) {
     return 0;
 #endif
 }
-
+#if !defined(PIC32) && !defined(__PIC32) & !defined(__PIC32__)
 void Controller::Stop() {
     running = false;
+    InputEvent evt = {
+            .code = 0,
+            .value = INPUT_EVENT_RELEASED
+    };
+    queue.push(evt);
 }
+#endif
