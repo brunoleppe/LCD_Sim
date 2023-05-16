@@ -6,8 +6,7 @@
 #define LCDTEST_STATETEST_H
 
 
-#include "DataTypes/StateMachine.h"
-#include <cstdio>
+#include "Test_MVC/DataTypes/StateMachine.h"
 
 class StateTest : public State{
 public:

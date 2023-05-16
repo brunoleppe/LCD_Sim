@@ -7,7 +7,7 @@
 
 
 #include "View.h"
-#include "DataTypes/LogoItem.h"
+#include "Test_MVC/DataTypes/LogoItem.h"
 
 class LogoView : public View {
 public:

@@ -7,8 +7,8 @@
 
 #include <vector>
 #include <string>
-#include "DataTypes/Item.h"
-#include "DataTypes/ItemList.h"
+#include "Test_MVC/DataTypes/Item.h"
+#include "Test_MVC/DataTypes/ItemList.h"
 
 enum MessageType{
     MESSAGE_TYPE_LOGO,

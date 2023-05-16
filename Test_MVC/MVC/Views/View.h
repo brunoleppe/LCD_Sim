@@ -6,17 +6,17 @@
 #define LCDTEST_VIEW_H
 
 
-#include "Figures/MenuWindow.h"
-#include "MVC/MessagePacket.h"
+#include "Test_MVC/Figures/MenuWindow.h"
+#include "Test_MVC/MVC/MessagePacket.h"
 #include "input.h"
-#include "DataTypes/Item.h"
-#include "MVC/ControllerInputEvent.h"
-#include "DataTypes/Observer.h"
+#include "Test_MVC/DataTypes/Item.h"
+#include "Test_MVC/MVC/ControllerInputEvent.h"
+#include "Test_MVC/DataTypes/Observer.h"
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
 #include "virtual_term.h"
 #include "linux_keys.h"
 #else
-#include "Input/virtual_term.h"
+#include "virtual_term.h"
 #endif
 
 

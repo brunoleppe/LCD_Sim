@@ -7,7 +7,7 @@
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
 #include "virtual_term.h"
 #else
-#include "Input/virtual_term.h"
+#include "virtual_term.h"
 #endif
 
 

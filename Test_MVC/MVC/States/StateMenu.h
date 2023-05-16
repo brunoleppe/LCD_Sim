@@ -5,8 +5,7 @@
 #ifndef LCDTEST_STATEMENU_H
 #define LCDTEST_STATEMENU_H
 
-#include "DataTypes/StateMachine.h"
-#include <cstdio>
+#include "Test_MVC/DataTypes/StateMachine.h"
 
 class StateMenu : public State{
 public:

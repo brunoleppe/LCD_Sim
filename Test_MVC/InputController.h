@@ -8,7 +8,7 @@
 
 #include "DataTypes/Observer.h"
 #include "MVC/ControllerInputEvent.h"
-#include "Input/virtual_term.h"
+#include "virtual_term.h"
 
 class InputController : public Subject {
 public:

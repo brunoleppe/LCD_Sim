@@ -8,8 +8,8 @@
 #include <vector>
 #include <string>
 #include "Figure.h"
-#include "DataTypes/Item.h"
-#include "DataTypes/ItemList.h"
+#include "Test_MVC/DataTypes/Item.h"
+#include "Test_MVC/DataTypes/ItemList.h"
 
 class ItemBox : public Figure{
 protected:

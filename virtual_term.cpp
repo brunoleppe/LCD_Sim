@@ -2,7 +2,7 @@
 // Created by bleppe on 11/05/23.
 //
 #include <SDL2/SDL.h>
-#include "MVC/ControllerInputEvent.h"
+#include "Test_MVC/MVC/ControllerInputEvent.h"
 
 int is_alpha(int code)
 {

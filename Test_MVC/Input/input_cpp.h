@@ -8,7 +8,7 @@
 #include <list>
 #include <string>
 #include "input.h"
-#include "DataTypes/Observer.h"
+#include "Test_MVC/DataTypes/Observer.h"
 
 
 void input_register(Observer* observer);

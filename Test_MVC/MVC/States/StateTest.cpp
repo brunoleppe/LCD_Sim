@@ -1,6 +1,7 @@
 #include "StateTest.h"
 #include "StateMenu.h"
 #include "input.h"
+#include <cstdio>
 
 //
 // Created by bleppe on 16/05/23.

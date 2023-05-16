@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -flto -fno-unwind-tables -fno-rtti -Wno-write-strings -fpermissive -fdata-sections -ffunction-sections -Wall")
 
 include_directories(.)
+include_directories(Test_MVC)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
@@ -15,43 +16,14 @@ add_executable(LCDTest
         lcd.h
         main.cpp
         input.h
+        debug_bsp.h debug_bsp.cpp
+        SDL_Queue.cpp SDL_Queue.h
+        virtual_term.h
+        virtual_term.cpp
+        )
 
-        Figures/Figure.cpp
-        Figures/Figure.h
-        Figures/Label.cpp
-        Figures/Label.h
-        Figures/Drawable.h
-        Figures/Composite.h
-        Figures/Box.cpp Figures/Box.h
-        Figures/TextBox.cpp
-        Figures/TextBox.h
-        Figures/Window.h
-        Figures/MenuWindow.cpp
-        Figures/MenuWindow.h
-        Figures/make_unique.h
-        Figures/ItemBox.cpp
-        Figures/ItemBox.h
+add_subdirectory(Test_MVC)
 
-        Input/input_cpp.h
-        Input/input.cpp
-        Input/virtual_term.h
-        Input/virtual_term.cpp
-        MVC/Controller.cpp
-        MVC/Controller.h
-        MVC/Model.cpp MVC/Model.h
-        MVC/Views/View.h
-        MVC/ModelStateService.h
-        MVC/MessagePacket.h
-        MVC/Views/ViewService.h
-        MVC/Views/View.cpp
-        MVC/ControllerInputEvent.h
-        DataTypes/Item.cpp
-        DataTypes/Item.h
-        DataTypes/Observer.h
-        MVC/Views/ViewService.cpp
-        MVC/Views/ViewService.cpp
-
-        DataTypes/ItemList.cpp DataTypes/ItemList.h DataTypes/LabelItem.cpp DataTypes/LabelItem.h DataTypes/Bitmap.cpp DataTypes/Bitmap.h DataTypes/BitmapItem.cpp DataTypes/BitmapItem.h DataTypes/ItemList.cpp MVC/Views/MenuView.cpp MVC/Views/MenuView.h MVC/Views/LogoView.cpp MVC/Views/LogoView.h DataTypes/LogoItem.cpp DataTypes/LogoItem.h SDL_Queue.cpp SDL_Queue.h DataTypes/StateMachine.h InputController.h InputController.cpp TestStateMachine.h TestStateMachine.cpp MVC/States/StateTest.h MVC/States/StateMenu.h MVC/States/StateMenu.cpp MVC/States/StateTest.cpp)
-
+target_link_libraries(LCDTest MVC)
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)

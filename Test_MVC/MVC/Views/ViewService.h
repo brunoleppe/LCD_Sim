@@ -6,9 +6,9 @@
 #define LCDTEST_VIEWSERVICE_H
 
 #include "View.h"
-#include "MVC/MessagePacket.h"
-#include "MVC/ControllerInputEvent.h"
-#include "DataTypes/Observer.h"
+#include "Test_MVC/MVC/MessagePacket.h"
+#include "Test_MVC/MVC/ControllerInputEvent.h"
+#include "Test_MVC/DataTypes/Observer.h"
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
 #include "FreeRTOS.h"
 #include "queue.h"

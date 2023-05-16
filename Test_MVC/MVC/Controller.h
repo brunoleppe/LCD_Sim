@@ -6,10 +6,10 @@
 #define LCDTEST_CONTROLLER_H
 
 
-#include "Input/input_cpp.h"
+#include "Test_MVC/Input/input_cpp.h"
 #include "Model.h"
 #include "ModelStateService.h"
-#include "MVC/Views/ViewService.h"
+#include "Test_MVC/MVC/Views/ViewService.h"
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
 
 #include "FreeRTOS.h"

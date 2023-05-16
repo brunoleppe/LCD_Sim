@@ -2,10 +2,9 @@
 #include <SDL2/SDL_thread.h>
 #include "lcd.h"
 #include <iostream>
-#include "Input/input_cpp.h"
 #include "MVC/Controller.h"
 #include "input.h"
-#include "TestStateMachine.h"
+#include "Test_MVC/TestStateMachine.h"
 #include "MVC/States/StateTest.h"
 
 bool running = true;

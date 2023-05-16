@@ -3,8 +3,8 @@
 //
 #include "input_cpp.h"
 #include "input.h"
-#include "MVC/Views/ViewService.h"
-#include "InputController.h"
+#include "Test_MVC/MVC/Views/ViewService.h"
+#include "Test_MVC/InputController.h"
 
 
 void input_register(Observer* observer)
