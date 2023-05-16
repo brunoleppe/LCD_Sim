@@ -47,14 +47,10 @@ add_library(MVC
         MVC/Views/LogoView.h
         DataTypes/LogoItem.cpp
         DataTypes/LogoItem.h
-        DataTypes/StateMachine.h
+        MVC/States/StateMachine.h
         InputController.h
         InputController.cpp
         TestStateMachine.h
         TestStateMachine.cpp
-        MVC/States/StateTest.h
-        MVC/States/StateMenu.h
-        MVC/States/StateMenu.cpp
-        MVC/States/StateTest.cpp
 
-        )
+        MVC/States/StateLogo.h MVC/States/StateMainLogo.cpp MVC/States/StateMainLogo.h)

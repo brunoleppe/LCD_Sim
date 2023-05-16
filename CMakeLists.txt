@@ -27,3 +27,15 @@ add_subdirectory(Test_MVC)
 target_link_libraries(LCDTest MVC)
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)
+
+# Include the version script
+include(version.cmake)
+# Add an option to control whether the version should be updated or not
+option(VERSION_UPDATE "Update the version during release build" OFF)
+# Add a custom target to update the version header file
+add_custom_target(update_version_header ALL
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake version.txt)
+
+# Add the custom target as a dependency for your target
+add_dependencies(LCDTest update_version_header)
