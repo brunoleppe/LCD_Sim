@@ -42,7 +42,7 @@ void MenuView::on_numeric_key(INPUT_EVENTS evt, char num) {
         };
         if(window.get_valid_item(index)) {
             window.select_item(index);
-            subject->set_data(i);
+//            subject->set_data(&i);
             subject->notify();
         }
 

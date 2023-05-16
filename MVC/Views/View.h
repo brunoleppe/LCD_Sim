@@ -43,12 +43,12 @@ public:
     virtual void update() = 0;
 
 
-    void set_subject(Subject<InputEvent> *s){
+    void set_subject(Subject *s){
         subject = s;
     }
 
     void on_event(InputEvent& evt){
-        subject->set_data(evt);
+//        subject->set_data(&evt);
         int res;
         if((res = is_alpha(evt.code))){
             on_alpha_key((INPUT_EVENTS)evt.value, char(res));
@@ -63,7 +63,7 @@ public:
 
 protected:
     MessagePacket *msg;
-    Subject<InputEvent> *subject;
+    Subject *subject;
     const char* title;
     ItemList *list;
     std::vector<const char*> *options;

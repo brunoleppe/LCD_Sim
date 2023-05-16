@@ -10,20 +10,13 @@
 #include "Input/virtual_term.h"
 #endif
 
-void Controller::update() {
-#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
-    xQueueSend(queue, &inputSubject->get_data(),portMAX_DELAY);
-#else
-    queue.push(inputSubject->get_data());
-#endif
-}
+
 
 Controller::Controller(ModelStateService* s, ViewService* v) : model(s), view(v), running(true)
 {
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
         queue = xQueueCreate(5, sizeof(InputEvent));
 #endif
-    v->attach(this);
 }
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
 void
@@ -32,8 +25,8 @@ int
 #endif
 Controller::controller_task(void *data) {
     auto c = (Controller*)data;
-    c->view->set_message(c->model->get_data());
-    c->view->update();
+//    c->view->set_message(c->model->get_data());
+//    c->view->update();
     while(c->running){
         InputEvent evt;
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
@@ -50,14 +43,14 @@ Controller::controller_task(void *data) {
             cEvt.type = INPUT_EVENT_TYPE_CONTROL;
             cEvt.code = is_control(evt.code);
 
-            if(c->model->on_event(cEvt)) {
-                c->view->set_message(c->model->get_data());
-                c->view->update();
-            }
+//            if(c->model->on_event(cEvt)) {
+//                c->view->set_message(c->model->get_data());
+//                c->view->update();
+//            }
         }
     }
 #if !defined(PIC32) && !defined(__PIC32) & !defined(__PIC32__)
-    c->model->stop();
+//    c->model->stop();
     return 0;
 #endif
 }

@@ -43,8 +43,7 @@ void ViewService::set_event(InputEvent &evt) {
 #endif
 }
 
-void ViewService::attach(InputEventObserver *observer) {
-    observer->inputSubject = &subject;
+void ViewService::attach(Observer *observer) {
     subject.attach(observer);
 }
 

@@ -11,7 +11,7 @@
 #include "DataTypes/Observer.h"
 
 
-void input_register(InputEventObserver* observer);
+void input_register(Observer* observer);
 
 
 

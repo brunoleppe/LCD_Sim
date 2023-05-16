@@ -8,10 +8,9 @@
 #include <vector>
 #include <string>
 #include "MessagePacket.h"
-#include "StateMachine.h"
 
 
-class Model : public State{
+class Model {
 protected:
     explicit Model(){}
     MessagePacket data;

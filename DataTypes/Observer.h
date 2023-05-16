@@ -10,28 +10,24 @@
 #include "input.h"
 
 // Forward declaration of the Subject class
-template <typename T>
+
 class Subject;
 
 // Observer abstract class
 class Observer {
 public:
-    virtual void update() = 0;
+    virtual void update(Subject* subject) = 0;
     virtual ~Observer() = default;
 };
 
-template <typename T>
 class Subject {
-private:
-    T data;
+protected:
+    void* data;
     std::list<Observer*> observers;
 
 public:
 
-    void set_data(T& d){
-        data = d;
-    }
-    T& get_data(){
+    void* get_data(){
         return data;
     }
 
@@ -44,14 +40,9 @@ public:
     }
     void notify() {
         for (auto observer : observers) {
-            observer->update();
+            observer->update(this);
         }
     }
-};
-
-class InputEventObserver : public Observer{
-public:
-    Subject<InputEvent> *inputSubject;
 };
 
 #endif //LCDTEST_OBSERVER_H

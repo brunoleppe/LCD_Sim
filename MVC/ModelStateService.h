@@ -7,16 +7,17 @@
 
 #include "Model.h"
 
-class ModelStateService : public StateMachine {
+class ModelStateService {
 
 public:
 
-    bool on_event(ControllerInputEvent& evt){
-        return ((Model *) state)->on_event(evt);
-    }
-    MessagePacket* get_data(){
-        return ((Model*)state)->get_data();
-    }
+//    bool on_event(ControllerInputEvent& evt){
+////        return ((Model *) state)->on_event(evt);
+//        return false;
+//    }
+//    MessagePacket* get_data(){
+//        return ((Model*)state)->get_data();
+//    }
 };
 
 

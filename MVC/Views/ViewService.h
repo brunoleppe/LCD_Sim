@@ -22,7 +22,7 @@ private:
     View *v;
     MessagePacket *mss = nullptr;
     ViewService();
-    Subject<InputEvent> subject;
+    Subject subject;
 
     static void task(void *);
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
@@ -39,7 +39,7 @@ public:
     void update();
     void set_message(MessagePacket *m);
     void set_event(InputEvent& evt);
-    void attach(InputEventObserver* observer);
+    void attach(Observer* observer);
 
 
 

@@ -4,11 +4,12 @@
 #include "input_cpp.h"
 #include "input.h"
 #include "MVC/Views/ViewService.h"
+#include "InputController.h"
 
 
-void input_register(InputEventObserver* observer)
+void input_register(Observer* observer)
 {
-    ViewService::instance.attach(observer);
+    InputController::instance.attach(observer);
 }
 bool input_report_key(int scancode, int eventType)
 {
@@ -16,6 +17,6 @@ bool input_report_key(int scancode, int eventType)
             .code = scancode,
             .value = (enum INPUT_EVENTS)eventType
     };
-    ViewService::instance.set_event(evt);
+    InputController::instance.set_data(&evt);
     return true;
 }

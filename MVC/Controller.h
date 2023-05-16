@@ -18,14 +18,13 @@
 #include "SDL_Queue.h"
 #endif
 
-class Controller : public InputEventObserver{
+class Controller{
 public:
 
     Controller(ModelStateService* s, ViewService* v);
 
     void Stop();
 
-    void update() override;
     static
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
     void

@@ -4,9 +4,9 @@
 #include <iostream>
 #include "Input/input_cpp.h"
 #include "MVC/Controller.h"
-#include "MVC/States/StateMainMenu.h"
 #include "input.h"
-#include "MVC/States/StateLogoScreen.h"
+#include "TestStateMachine.h"
+#include "MVC/States/StateTest.h"
 
 bool running = true;
 
@@ -44,6 +44,10 @@ int input_task(void *data) {
     return 0;
 }
 
+int state_machine_task(void *data){
+    return 0;
+}
+
 
 int main(int argc, char** argv) {
     setlocale(LC_ALL, "es_EC.UTF-8");
@@ -66,11 +70,10 @@ int main(int argc, char** argv) {
 
     std::cout << "SDL iniciado" << std::endl;
 
-    auto *s = new ModelStateService();
-    s->set_state(&StateLogoScreen::instance);
-    auto *c = new Controller(s, &ViewService::instance);
-//    input_register(c);
-    ViewService::instance.start();
+    TestStateMachine machine;
+    machine.set_state(new StateTest());
+    input_register(&machine);
+
 
     std::cout << "MVC iniciado" << std::endl;
 
@@ -86,20 +89,10 @@ int main(int argc, char** argv) {
     }
     std::cout << "hilo de eventos creado" << std::endl;
 
-    controllerThread = SDL_CreateThread(Controller::controller_task, "controllerTask", c);
-    if (controllerThread == nullptr)
-    {
-        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
-        running = false;
-        SDL_WaitThread(eventThread, nullptr);
-        goto CLEAN_UP;
-    }
+
 
     // Wait for event handling thread to exit
     SDL_WaitThread(eventThread, nullptr);
-    c->Stop();
-    SDL_WaitThread(controllerThread, nullptr);
-    ViewService::instance.stop();
     std::cout << "Hilos finalizados" << std::endl;
 
 CLEAN_UP:
@@ -110,7 +103,6 @@ CLEAN_UP:
     SDL_Quit();
     std::cout << "SDL finalizado" << std::endl;
 
-    delete c;
-    delete s;
+    machine.stop();
     return 0;
 }

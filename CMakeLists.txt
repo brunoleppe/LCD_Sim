@@ -41,12 +41,7 @@ add_executable(LCDTest
         MVC/Model.cpp MVC/Model.h
         MVC/Views/View.h
         MVC/ModelStateService.h
-        MVC/States/StateMainMenu.cpp
-        MVC/States/StateMainMenu.h
-        MVC/States/StateOptionMenu.cpp
-        MVC/States/StateOptionMenu.h
         MVC/MessagePacket.h
-        MVC/StateMachine.h
         MVC/Views/ViewService.h
         MVC/Views/View.cpp
         MVC/ControllerInputEvent.h
@@ -56,7 +51,7 @@ add_executable(LCDTest
         MVC/Views/ViewService.cpp
         MVC/Views/ViewService.cpp
 
-        DataTypes/ItemList.cpp DataTypes/ItemList.h DataTypes/LabelItem.cpp DataTypes/LabelItem.h DataTypes/Bitmap.cpp DataTypes/Bitmap.h DataTypes/BitmapItem.cpp DataTypes/BitmapItem.h DataTypes/ItemList.cpp MVC/States/StateLogoScreen.cpp MVC/States/StateLogoScreen.h MVC/Views/MenuView.cpp MVC/Views/MenuView.h MVC/Views/LogoView.cpp MVC/Views/LogoView.h DataTypes/LogoItem.cpp DataTypes/LogoItem.h SDL_Queue.cpp SDL_Queue.h)
+        DataTypes/ItemList.cpp DataTypes/ItemList.h DataTypes/LabelItem.cpp DataTypes/LabelItem.h DataTypes/Bitmap.cpp DataTypes/Bitmap.h DataTypes/BitmapItem.cpp DataTypes/BitmapItem.h DataTypes/ItemList.cpp MVC/Views/MenuView.cpp MVC/Views/MenuView.h MVC/Views/LogoView.cpp MVC/Views/LogoView.h DataTypes/LogoItem.cpp DataTypes/LogoItem.h SDL_Queue.cpp SDL_Queue.h DataTypes/StateMachine.h InputController.h InputController.cpp TestStateMachine.h TestStateMachine.cpp MVC/States/StateTest.h MVC/States/StateMenu.h MVC/States/StateMenu.cpp MVC/States/StateTest.cpp)
 
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)
