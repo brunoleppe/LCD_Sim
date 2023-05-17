@@ -53,4 +53,4 @@ add_library(MVC
         TestStateMachine.h
         TestStateMachine.cpp
 
-        MVC/States/StateLogo.h MVC/States/StateMainLogo.cpp MVC/States/StateMainLogo.h)
+        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h)

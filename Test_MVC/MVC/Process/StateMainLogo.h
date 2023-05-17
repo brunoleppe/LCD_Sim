@@ -6,7 +6,7 @@
 #define LCDTEST_STATEMAINLOGO_H
 
 
-#include "StateLogo.h"
+#include "Test_MVC/MVC/States/StateLogo.h"
 
 class StateMainLogo : public StateLogo{
 public:

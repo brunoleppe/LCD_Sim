@@ -5,7 +5,7 @@
 #include "MVC/Controller.h"
 #include "input.h"
 #include "Test_MVC/TestStateMachine.h"
-#include "MVC/States/StateMainLogo.h"
+#include "Test_MVC/MVC/Process/StateMainLogo.h"
 
 bool running = true;
 

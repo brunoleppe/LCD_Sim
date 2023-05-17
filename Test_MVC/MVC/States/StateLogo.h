@@ -22,13 +22,15 @@ public:
     Status on_event(StateEvent *evt) override{
         Status status = STATUS_IGNORED;
         if(evt->signal == EVENT_SIGNAL_EXIT){
-            delete bitmap;
+            delete[] bitmap;
             status = STATUS_HANDLED;
         }
         return status;
     }
 
-public:
+    uint8_t* get_bitmap(){
+        return bitmap;
+    }
 };
 
 
