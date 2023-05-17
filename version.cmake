@@ -1,7 +1,7 @@
 # Check if the VERSION_UPDATE variable is set to "1"
-if (DEFINED VERSION_UPDATE AND "${VERSION_UPDATE}" STREQUAL "1")
+if (DEFINED VERSION_UPDATE AND VERSION_UPDATE)
     # Read the current version from a file
-    file(READ "/home/bleppe/Documents/Programas/LCDTest/version.txt" VERSION_FILE_CONTENTS)
+    file(READ "./version.txt" VERSION_FILE_CONTENTS)
 
     # Split the version string into parts
     string(REPLACE "." ";" VERSION_PARTS "${VERSION_FILE_CONTENTS}")
@@ -18,11 +18,11 @@ if (DEFINED VERSION_UPDATE AND "${VERSION_UPDATE}" STREQUAL "1")
     string(REPLACE ";" "." UPDATED_VERSION "${VERSION_PARTS}")
 
     # Write the updated version to the version file
-    file(WRITE "/home/bleppe/Documents/Programas/LCDTest/version.txt" "${UPDATED_VERSION}")
+    file(WRITE "./version.txt" "${UPDATED_VERSION}")
 
     # Write the version macro to a header file
-    file(WRITE "/home/bleppe/Documents/Programas/LCDTest/version.h" "#define VERSION \"${UPDATED_VERSION}\"")
+    file(WRITE "./version.h" "#define VERSION \"${UPDATED_VERSION}\"")
 else()
     # Copy the version file to the build directory without modification
-    configure_file("/home/bleppe/Documents/Programas/LCDTest/version.txt" "/home/bleppe/Documents/Programas/LCDTest/version.txt" COPYONLY)
+    configure_file("./version.txt" "./version.txt" COPYONLY)
 endif()

@@ -15,6 +15,7 @@ protected:
     uint8_t *bitmap;
 public:
     StateLogo(){
+        type = STATE_TYPE_LOGO;
         bitmap = new uint8_t[LCD_WIDTH * LCD_HEIGHT / 2];
     }
 
