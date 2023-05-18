@@ -53,4 +53,4 @@ add_library(MVC
         TestStateMachine.h
         TestStateMachine.cpp
 
-        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h MVC/States/StateInput.h MVC/ViewModels/InputViewModel.h MVC/Process/StateInputTest1.cpp MVC/Process/StateInputTest1.h MVC/Process/StateInputTest2.cpp MVC/Process/StateInputTest2.h InputViewTest.h)
+        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h MVC/States/StateInput.h MVC/ViewModels/InputViewModel.h MVC/Process/StateInputTest1.cpp MVC/Process/StateInputTest1.h MVC/Process/StateInputTest2.cpp MVC/Process/StateInputTest2.h InputViewTest.h DataTypes/string.h)
