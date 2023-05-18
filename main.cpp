@@ -6,6 +6,7 @@
 #include "input.h"
 #include "Test_MVC/TestStateMachine.h"
 #include "Test_MVC/MVC/Process/StateMainLogo.h"
+#include "MVC/Process/StateInputTest1.h"
 
 bool running = true;
 
@@ -70,7 +71,7 @@ int main(int argc, char** argv) {
     std::cout << "SDL iniciado" << std::endl;
 
     TestStateMachine machine;
-    machine.set_state(new StateMainLogo());
+//    machine.set_state(new StateInputTest1());
     input_register(&machine);
 
 
