@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 
 #ifndef LCD_H
 #define LCD_H
