@@ -6,7 +6,6 @@
 #define LCDTEST_STRING_H
 
 
-
 namespace bru {
 
 class string {
@@ -15,11 +14,27 @@ private:
     char* buffer;
     int count;
 public:
+
+    string() : count(0){
+        buffer = new char[MaxSize + 1];
+        buffer[0] = 0;
+    }
+    explicit string(const char *str) : count(0){
+        buffer = new char[MaxSize + 1];
+        buffer[0] = 0;
+        assign(str);
+    }
+
+    virtual ~string() {
+        delete[] buffer;
+    }
+
     void assign(const char* str){
         count = 0;
-        for(count = 0; count < MaxSize || str[count] == 0; count++){
-            buffer[count] = str[count];
-        }
+        do{
+            if(count < MaxSize)
+                buffer[count++] = *str++;
+        }while(*str);
         buffer[count] = '\0';
     }
 
@@ -40,28 +55,18 @@ public:
         return buffer;
     }
 
-    string() : count(0){
-        buffer = new char[MaxSize + 1];
-    }
-    explicit string(const char *str) : count(0){
-        buffer = new char[MaxSize + 1];
-        assign(str);
-    }
-
     char operator[](int index) {
         if(index < count)
             return buffer[index];
         return 0;
     }
 
-//    char& at(int index){
-//        if(index < count)
-//    }
-
-
+    bool empty() const{
+        return count == 0;
+    }
 
 };
 
-} // std
+} // bru
 
 #endif //LCDTEST_STRING_H
