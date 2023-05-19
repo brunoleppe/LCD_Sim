@@ -9,7 +9,7 @@
 #include "DataTypes/Observer.h"
 #include "Test_MVC/MVC/States/StateMachine.h"
 #include "MVC/ControllerInputEvent.h"
-#include "InputViewTest.h"
+#include "Test_MVC/Test/Views/InputViewTest.h"
 #include "MVC/Process/StateInputTest1.h"
 
 class TestStateMachine : public StateMachine, public Observer{
