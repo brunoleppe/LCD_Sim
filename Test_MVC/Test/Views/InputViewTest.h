@@ -22,7 +22,7 @@ public:
     bool set_input(ControllerInputEvent& evt){
         if(evt.type == INPUT_EVENT_TYPE_ALPHA && evt.event == INPUT_EVENT_PRESSED){
             viewModel->add_char((char)evt.code);
-            DEBUG_PRINT("%c\n",(char)evt.code);
+            ERROR_PRINT("%c",(char)evt.code);
             return true;
         }
         else if(evt.type == INPUT_EVENT_TYPE_CONTROL){
@@ -32,6 +32,7 @@ public:
             }
             else if(evt.code == CONTROL_TYPE_SPACE && evt.event == INPUT_EVENT_PRESSED){
                 viewModel->add_char(' ');
+                ERROR_PRINT("%c", ' ');
                 return true;
             }
         }
