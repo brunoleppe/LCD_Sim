@@ -9,13 +9,12 @@
 #include "MVC/ViewModels/InputViewModel.h"
 #include "MVC/ControllerInputEvent.h"
 #include "debug_bsp.h"
+
+
 class InputViewTest {
 private:
     InputViewModel* viewModel;
 public:
-
-
-
     void set_view_model(InputViewModel* vm){
         viewModel = vm;
     }
