@@ -7,7 +7,9 @@
 
 
 #define DEBUG_PRINT(...)     debug_printf(__VA_ARGS__)
+#define ERROR_PRINT(...)     error_printf(__VA_ARGS__)
 
 void debug_printf(const char *fmt, ...);
+void error_printf(const char *fmt, ...);
 
 #endif //READER_DEBUG_BSP_H
