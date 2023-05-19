@@ -12,3 +12,11 @@ void debug_printf(const char *fmt, ...)
     vprintf(fmt,list);
     va_end(list);
 }
+
+void error_printf(const char *fmt, ...)
+{
+    va_list list;
+    va_start(list,fmt);
+    vfprintf(stderr, fmt,list);
+    va_end(list);
+}

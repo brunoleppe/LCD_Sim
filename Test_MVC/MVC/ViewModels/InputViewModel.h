@@ -23,7 +23,8 @@ public:
     }
 
     void delete_char(){
-        model->get_string()->pop_back();
+        if(!model->get_string()->empty())
+            model->get_string()->pop_back();
     }
 
 };

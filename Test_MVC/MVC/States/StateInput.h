@@ -6,17 +6,17 @@
 #define LCDTEST_STATEINPUT_H
 
 
-#include <string>
 #include "StateMachine.h"
+#include "DataTypes/string.h"
 
 class StateInput : public State{
 protected:
-    std::string string;
+    bru::string string;
     StateInput(){
         type = STATE_TYPE_INPUT;
     }
 public:
-    std::string* get_string(){
+    bru::string* get_string(){
         return &string;
     }
 };
