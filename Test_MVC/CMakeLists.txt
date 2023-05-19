@@ -36,7 +36,6 @@ add_library(MVC
         DataTypes/ItemList.h
         DataTypes/LabelItem.cpp
         DataTypes/LabelItem.h
-        DataTypes/Bitmap.cpp
         DataTypes/Bitmap.h
         DataTypes/BitmapItem.cpp
         DataTypes/BitmapItem.h
@@ -53,4 +52,4 @@ add_library(MVC
         TestStateMachine.h
         TestStateMachine.cpp
 
-        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h MVC/States/StateInput.h MVC/ViewModels/InputViewModel.h MVC/Process/StateInputTest1.cpp MVC/Process/StateInputTest1.h MVC/Process/StateInputTest2.cpp MVC/Process/StateInputTest2.h Test/Views/InputViewTest.h DataTypes/string.h DataTypes/vector.h DataTypes/queue.h)
+        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h MVC/States/StateInput.h MVC/ViewModels/InputViewModel.h MVC/Process/StateInputTest1.cpp MVC/Process/StateInputTest1.h MVC/Process/StateInputTest2.cpp MVC/Process/StateInputTest2.h Test/Views/InputViewTest.h DataTypes/string.h DataTypes/vector.h DataTypes/queue.h MVC/ViewModels/LogoViewModel.h MVC/ViewModels/ViewModel.h Test/Views/LogoViewTest.h)

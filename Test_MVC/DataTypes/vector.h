@@ -55,7 +55,7 @@ public:
         }
 
         bool operator!=(const Iterator& other) const {
-            return !(*this == other);
+            return *this != other;
         }
 
     private:

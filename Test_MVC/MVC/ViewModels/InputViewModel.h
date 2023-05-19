@@ -7,13 +7,14 @@
 
 
 #include "MVC/States/StateInput.h"
+#include "ViewModel.h"
 
-class InputViewModel {
+class InputViewModel : public ViewModel{
 private:
     StateInput* model;
 public:
-    void set_state(StateInput* state){
-        model = state;
+    void set_state(State* state) override{
+        model = (StateInput*)state;
     }
 
     void add_char(char a){
