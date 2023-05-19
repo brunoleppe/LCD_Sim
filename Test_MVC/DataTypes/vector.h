@@ -13,8 +13,16 @@ template <typename T>
 class vector {
 private:
     T* buffer;
-    int capacity = 32;
+    int capacity = 1;
     int count;
+    void reserve(){
+        T *newData = new T[capacity];
+        for(int i=0; i<count; i++){
+            newData[i] = buffer[i];
+        }
+        delete[] buffer;
+        buffer = newData;
+    }
 public:
 
     class Iterator {
@@ -58,6 +66,10 @@ public:
         buffer = new T[capacity];
     }
 
+    virtual ~vector() {
+        delete[] buffer;
+    }
+
     int size(){
         return count;
     }
@@ -67,8 +79,11 @@ public:
     }
 
     void push_back(T &&a){
-        if(count < capacity)
-            buffer[count++] = a;
+        if(count == capacity){
+            capacity *= 2;
+            reserve();
+        }
+        buffer[count++] = a;
     }
 
     void pop_back(){

@@ -5,22 +5,32 @@
 #ifndef LCDTEST_STRING_H
 #define LCDTEST_STRING_H
 
+#include <cstring>
 
 namespace bru {
 
 class string {
 private:
-    static const int MaxSize = 64;
     char* buffer;
     int count;
+    int capacity;
+
+    void reserve(){
+        char *newData = new char[capacity + 1];
+        for(int i=0; i<count; i++){
+            newData[i] = buffer[i];
+        }
+        delete[] buffer;
+        buffer = newData;
+    }
 public:
 
-    string() : count(0){
-        buffer = new char[MaxSize + 1];
+    string() : count(0), capacity(1){
+        buffer = new char[capacity + 1];
         buffer[0] = 0;
     }
     explicit string(const char *str) : count(0){
-        buffer = new char[MaxSize + 1];
+        buffer = new char[capacity + 1];
         buffer[0] = 0;
         assign(str);
     }
@@ -31,18 +41,31 @@ public:
 
     void assign(const char* str){
         count = 0;
+        int len = (int)strlen(str);
+        if(capacity <= len){
+            while(capacity < len){
+                capacity *= 2;
+            }
+            reserve();
+        }
         do{
-            if(count < MaxSize)
+//            if(count < MaxSize)
                 buffer[count++] = *str++;
         }while(*str);
         buffer[count] = '\0';
     }
 
     void push_back(char c){
-        if(count < MaxSize) {
+
+        if(count == capacity){
+            capacity <<= 1;
+            reserve();
+        }
+
+//        if(count < MaxSize) {
             buffer[count++] = c;
             buffer[count] = 0;
-        }
+//        }
     }
     void pop_back(){
         if(count > 0)
