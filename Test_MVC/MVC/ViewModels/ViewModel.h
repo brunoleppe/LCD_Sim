@@ -12,6 +12,8 @@ class ViewModel {
 protected:
     ViewModel() = default;
 public:
+    virtual ~ViewModel() = default;
+
     virtual void set_state(State *state) = 0;
 };
 

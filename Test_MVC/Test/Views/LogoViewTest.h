@@ -7,35 +7,23 @@
 
 
 #include "MVC/ViewModels/LogoViewModel.h"
-#include "MVC/ControllerInputEvent.h"
+#include "Test_MVC/DataTypes/ControllerInputEvent.h"
 #include "debug_bsp.h"
+#include "ViewTest.h"
 
-class LogoViewTest {
+class LogoViewTest : public ViewTest{
 private:
-    LogoViewModel* viewModel;
+    Bitmap* bmp;
 public:
-    void set_view_model(LogoViewModel* vm){
-        viewModel = vm;
+    explicit LogoViewTest(LogoViewModel *viewModel) : ViewTest(viewModel) {
+        bmp = viewModel->get_bitmap();
+        DEBUG_PRINT("%d, %d", bmp->height, bmp->width);
     }
-    bool set_input(ControllerInputEvent& evt){
-        if(evt.type == INPUT_EVENT_TYPE_ALPHA && evt.event == INPUT_EVENT_PRESSED){
-            viewModel->add_char((char)evt.code);
-            ERROR_PRINT("%c",(char)evt.code);
-            return true;
-        }
-        else if(evt.type == INPUT_EVENT_TYPE_CONTROL){
-            if(evt.code == CONTROL_TYPE_RETURN && evt.event == INPUT_EVENT_PRESSED){
-                viewModel->delete_char();
-                return true;
-            }
-            else if(evt.code == CONTROL_TYPE_SPACE && evt.event == INPUT_EVENT_PRESSED){
-                viewModel->add_char(' ');
-                ERROR_PRINT("%c", ' ');
-                return true;
-            }
-        }
+    bool set_input(ControllerInputEvent& evt) override{
         return false;
     }
+
+    static LogoViewTest instance;
 };
 
 

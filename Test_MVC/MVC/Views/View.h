@@ -7,10 +7,9 @@
 
 
 #include "Test_MVC/Figures/MenuWindow.h"
-#include "Test_MVC/MVC/MessagePacket.h"
 #include "input.h"
 #include "Test_MVC/DataTypes/Item.h"
-#include "Test_MVC/MVC/ControllerInputEvent.h"
+#include "Test_MVC/DataTypes/ControllerInputEvent.h"
 #include "Test_MVC/DataTypes/Observer.h"
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
 #include "virtual_term.h"
@@ -36,7 +35,7 @@ public:
     void set_title(const char *str){
         title = str;
     }
-    void set_options(std::vector<const char*>& _options){
+    void set_options(bru::vector<const char*>& _options){
         options = &_options;
     }
 
@@ -62,11 +61,10 @@ public:
     }
 
 protected:
-    MessagePacket *msg;
     Subject *subject;
     const char* title;
     ItemList *list;
-    std::vector<const char*> *options;
+    bru::vector<const char*> *options;
 };
 
 

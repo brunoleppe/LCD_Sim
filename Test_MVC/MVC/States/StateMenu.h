@@ -6,19 +6,19 @@
 #define LCDTEST_STATEMENU_H
 
 
-#include <vector>
 #include "StateMachine.h"
+#include "DataTypes/vector.h"
 
 
 class StateMenu : public State{
 protected:
-    std::vector<const char *> items;
+    bru::vector<const char *> items;
     int index;
     StateMenu() : index(0){
         type = STATE_TYPE_MENU;
     }
 public:
-    std::vector<const char *>* get_items(){
+    bru::vector<const char *>* get_items(){
         return &items;
     }
 

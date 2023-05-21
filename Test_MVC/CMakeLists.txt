@@ -17,16 +17,10 @@ add_library(MVC
         Figures/ItemBox.h
         Input/input_cpp.h
         Input/input.cpp
-        MVC/Controller.cpp
-        MVC/Controller.h
-        MVC/Model.cpp
-        MVC/Model.h
         MVC/Views/View.h
-        MVC/ModelStateService.h
-        MVC/MessagePacket.h
         MVC/Views/ViewService.h
         MVC/Views/View.cpp
-        MVC/ControllerInputEvent.h
+        DataTypes/ControllerInputEvent.h
         DataTypes/Item.cpp
         DataTypes/Item.h
         DataTypes/Observer.h
@@ -52,4 +46,4 @@ add_library(MVC
         TestStateMachine.h
         TestStateMachine.cpp
 
-        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h MVC/States/StateInput.h MVC/ViewModels/InputViewModel.h MVC/Process/StateInputTest1.cpp MVC/Process/StateInputTest1.h MVC/Process/StateInputTest2.cpp MVC/Process/StateInputTest2.h Test/Views/InputViewTest.h DataTypes/string.h DataTypes/vector.h DataTypes/queue.h MVC/ViewModels/LogoViewModel.h MVC/ViewModels/ViewModel.h Test/Views/LogoViewTest.h)
+        MVC/States/StateLogo.h MVC/Process/StateMainLogo.cpp MVC/Process/StateMainLogo.h MVC/States/StateMenu.h MVC/Process/StateTransactionTypeMenu.cpp MVC/Process/StateTransactionTypeMenu.h MVC/States/StateInput.h MVC/ViewModels/InputViewModel.h MVC/Process/StateInputTest1.cpp MVC/Process/StateInputTest1.h MVC/Process/StateInputTest2.cpp MVC/Process/StateInputTest2.h Test/Views/InputViewTest.h DataTypes/string.h DataTypes/vector.h DataTypes/queue.h MVC/ViewModels/LogoViewModel.h MVC/ViewModels/ViewModel.h Test/Views/LogoViewTest.h Test/Views/ViewTest.h Test/Views/Views.cpp Factory.h DataTypes/list.h)

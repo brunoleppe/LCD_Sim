@@ -7,6 +7,7 @@
 #include "debug_bsp.h"
 #include "version.h"
 #include "StateTransactionTypeMenu.h"
+#include "StateInputTest1.h"
 
 Status StateMainLogo::on_event(StateEvent *evt) {
     Status status;
@@ -18,7 +19,7 @@ Status StateMainLogo::on_event(StateEvent *evt) {
         case EVENT_SIGNAL_SELECT:
             if(evt->value == INPUT_EVENT_CLICKED){
                 status = STATUS_TRANSITION;
-                context->transition(new StateTransactionTypeMenu());
+                context->transition(new StateInputTest1());
             }
             break;
         default: status = StateLogo::on_event(evt);

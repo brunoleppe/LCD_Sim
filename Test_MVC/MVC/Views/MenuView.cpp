@@ -32,14 +32,6 @@ void MenuView::on_numeric_key(INPUT_EVENTS evt, char num) {
         window.focus(index);
     }
     else if(evt == INPUT_EVENT_CLICKED){
-        InputEvent  i = {
-#if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
-                .code = KEY_ENTER,
-#else
-                .code = SDL_SCANCODE_RETURN,
-#endif
-                .value = evt,
-        };
         if(window.get_valid_item(index)) {
             window.select_item(index);
 //            subject->set_data(&i);

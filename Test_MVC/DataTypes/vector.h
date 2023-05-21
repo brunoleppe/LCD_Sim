@@ -5,7 +5,7 @@
 #ifndef LCDTEST_VECTOR_H
 #define LCDTEST_VECTOR_H
 
-#include <vector>
+#include <iterator>
 
 namespace bru {
 
@@ -33,7 +33,7 @@ public:
         using pointer = T*;
         using reference = T&;
 
-        Iterator(pointer ptr) : ptr_(ptr) {}
+        explicit Iterator(pointer ptr) : ptr_(ptr) {}
 
         reference operator*() const {
             return *ptr_;
@@ -70,7 +70,7 @@ public:
         delete[] buffer;
     }
 
-    int size(){
+    int size() const{
         return count;
     }
 
@@ -78,7 +78,14 @@ public:
         return count == 0;
     }
 
-    void push_back(T &&a){
+    void push_back(const T &&a){
+        if(count == capacity){
+            capacity *= 2;
+            reserve();
+        }
+        buffer[count++] = a;
+    }
+    void push_back(const T &a){
         if(count == capacity){
             capacity *= 2;
             reserve();
@@ -101,6 +108,9 @@ public:
 
     Iterator end() {
         return Iterator(buffer + count);
+    }
+    void clear(){
+        count = 0;
     }
 
 };

@@ -30,6 +30,18 @@ public:
         }
         data[count++] = x;
     }
+    void push(T &x){
+        if(count == capacity){
+            capacity <<= 1;
+            T *newData = new T[capacity];
+            for(int i=0; i<count; i++){
+                newData[i] = data[i];
+            }
+            delete[] data;
+            data = newData;
+        }
+        data[count++] = x;
+    }
     void pop(){
         if(count > 0){
             --count;

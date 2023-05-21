@@ -29,7 +29,7 @@ public:
         buffer = new char[capacity + 1];
         buffer[0] = 0;
     }
-    explicit string(const char *str) : count(0){
+    explicit string(const char *str) : count(0), capacity(1){
         buffer = new char[capacity + 1];
         buffer[0] = 0;
         assign(str);
@@ -86,6 +86,10 @@ public:
 
     bool empty() const{
         return count == 0;
+    }
+    void erase(int index){
+        if(count > index)
+            buffer[index] = '\0';
     }
 
 };

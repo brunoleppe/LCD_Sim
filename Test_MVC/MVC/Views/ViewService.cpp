@@ -6,22 +6,9 @@
 #include "MenuView.h"
 #include "LogoView.h"
 
-void ViewService::set_message(MessagePacket *m) {
-    if(m->messageType == MESSAGE_TYPE_MENU) {
-        v = &MenuView::instance;
-    }
-    else if(m->messageType == MESSAGE_TYPE_LOGO){
-        v = &LogoView::instance;
-    }
 
-    v->set_title(m->title);
-    v->set_items(m->items);
-    v->set_options(m->options);
-    v->set_subject(&subject);
-    v->update();
-}
 
-ViewService::ViewService() : mss(nullptr){
+ViewService::ViewService() {
 #if defined(PIC32) || defined(__PIC32) || defined(__PIC32__)
     queue = xQueueCreate(5,sizeof(InputEvent));
     xTaskCreate(ViewService::task, "view_task", 1024, nullptr, 2, nullptr);

@@ -14,7 +14,7 @@ void LogoView::on_control_key(INPUT_EVENTS evt, ControlType c) {
 }
 
 void LogoView::update() {
-    item = (LogoItem*)list->items.front();
+    item = (LogoItem*)list->items[0];
 }
 
 LogoView::LogoView() {

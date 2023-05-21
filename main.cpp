@@ -2,10 +2,9 @@
 #include <SDL2/SDL_thread.h>
 #include "lcd.h"
 #include <iostream>
-#include "MVC/Controller.h"
 #include "input.h"
+#include "Test_MVC/Input/input_cpp.h"
 #include "Test_MVC/TestStateMachine.h"
-#include "MVC/Process/StateInputTest1.h"
 
 bool running = true;
 
@@ -52,7 +51,7 @@ int main(int argc, char** argv) {
     setlocale(LC_ALL, "es_EC.UTF-8");
     (void)argc;
     (void)argv;
-    SDL_Thread *eventThread, *controllerThread;
+    SDL_Thread *eventThread;
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) return 1;
 

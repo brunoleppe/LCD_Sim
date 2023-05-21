@@ -7,18 +7,18 @@
 
 
 #include "MVC/ViewModels/InputViewModel.h"
-#include "MVC/ControllerInputEvent.h"
+#include "Test_MVC/DataTypes/ControllerInputEvent.h"
 #include "debug_bsp.h"
+#include "ViewTest.h"
 
 
-class InputViewTest {
+class InputViewTest : public ViewTest{
 private:
     InputViewModel* viewModel;
 public:
-    void set_view_model(InputViewModel* vm){
-        viewModel = vm;
-    }
-    bool set_input(ControllerInputEvent& evt){
+    explicit InputViewTest(InputViewModel *viewModel) : ViewTest(viewModel), viewModel(viewModel){}
+
+    bool set_input(ControllerInputEvent& evt) override{
         if(evt.type == INPUT_EVENT_TYPE_ALPHA && evt.event == INPUT_EVENT_PRESSED){
             viewModel->add_char((char)evt.code);
             ERROR_PRINT("%c",(char)evt.code);
@@ -37,6 +37,7 @@ public:
         }
         return false;
     }
+    static InputViewTest instance;
 };
 
 
