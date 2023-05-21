@@ -12,6 +12,7 @@ Status StateInputTest1::on_event(StateEvent *evt) {
     switch(evt->signal){
         case EVENT_SIGNAL_ENTER:
             status = STATUS_INIT;
+            title.assign("InputTest1");
             DEBUG_PRINT("Input 1\n");
             break;
         case EVENT_SIGNAL_SELECT:

@@ -10,11 +10,13 @@
 
 class ViewModel {
 protected:
-    ViewModel() = default;
+    ViewModel(State *s) : state(s){}
+    State *state;
 public:
     virtual ~ViewModel() = default;
-
-    virtual void set_state(State *state) = 0;
+    void set_state(State *s){
+        state = s;
+    }
 };
 
 

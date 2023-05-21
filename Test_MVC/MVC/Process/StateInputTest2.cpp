@@ -7,15 +7,13 @@
 #include "debug_bsp.h"
 #include "input.h"
 
-StateInputTest2::StateInputTest2() {
-    string.assign("Hola");
-}
-
 Status StateInputTest2::on_event(StateEvent *evt) {
     Status status;
     switch(evt->signal){
         case EVENT_SIGNAL_ENTER:
             status = STATUS_INIT;
+            title.assign("InputTest2");
+            string.assign("Hola");
             DEBUG_PRINT("Input 2\n");
             break;
         case EVENT_SIGNAL_SELECT:

@@ -141,6 +141,6 @@ CLEAN_UP:
     SDL_Quit();
     std::cout << "SDL finalizado" << std::endl;
 
-    machine.stop();
+    machine.stop_all();
     return 0;
 }

@@ -12,17 +12,13 @@
 
 class LogoViewModel : public ViewModel {
 private:
-    StateLogo* state;
     Bitmap bmp;
 public:
-    void set_state(State *s) override{
-        state = (StateLogo*)s;
-        bmp.bitmap = state->get_bitmap();
+    explicit LogoViewModel(StateLogo *state) : ViewModel(state) {}
+    Bitmap* get_bitmap(){
+        bmp.bitmap = ((StateLogo*)state)->get_bitmap();
         bmp.height = 128;
         bmp.width = 240;
-    }
-
-    Bitmap* get_bitmap(){
         return &bmp;
     }
 

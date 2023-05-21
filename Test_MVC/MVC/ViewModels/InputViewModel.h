@@ -11,23 +11,25 @@
 
 class InputViewModel : public ViewModel{
 private:
-    StateInput* model;
 public:
-    void set_state(State* state) override{
-        model = (StateInput*)state;
-    }
+    explicit InputViewModel(StateInput *state) : ViewModel(state){}
 
     void add_char(char a){
-        if(model == nullptr)
+        if(state == nullptr)
             return;
-        model->get_string()->push_back(a);
+        ((StateInput*)state)->get_string()->push_back(a);
     }
 
     void delete_char(){
-        if(!model->get_string()->empty())
-            model->get_string()->pop_back();
+        if(!((StateInput*)state)->get_string()->empty())
+            ((StateInput*)state)->get_string()->pop_back();
     }
-
+    bru::string* get_string(){
+        return  ((StateInput*)state)->get_string();
+    }
+    bru::string* get_title(){
+        return ((StateInput*)state)->get_title();
+    }
 };
 
 

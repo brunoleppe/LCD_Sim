@@ -14,6 +14,7 @@ Status StateMainLogo::on_event(StateEvent *evt) {
     switch(evt->signal){
         case EVENT_SIGNAL_ENTER:
             DEBUG_PRINT("Logo State, %s\n", VERSION);
+            memset(bitmap,0xF0,LCD_WIDTH*LCD_HEIGHT/2);
             status = STATUS_HANDLED;
             break;
         case EVENT_SIGNAL_SELECT:

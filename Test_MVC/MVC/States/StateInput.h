@@ -12,12 +12,16 @@
 class StateInput : public State{
 protected:
     bru::string string;
+    bru::string title;
     StateInput(){
         type = STATE_TYPE_INPUT;
     }
 public:
     bru::string* get_string(){
         return &string;
+    }
+    bru::string* get_title(){
+        return &title;
     }
 };
 

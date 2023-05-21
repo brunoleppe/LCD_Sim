@@ -9,13 +9,13 @@
 #include "MVC/ViewModels/LogoViewModel.h"
 #include "Test_MVC/DataTypes/ControllerInputEvent.h"
 #include "debug_bsp.h"
-#include "ViewTest.h"
+#include "MVC/Views/View.h"
 
-class LogoViewTest : public ViewTest{
+class LogoViewTest : public View{
 private:
     Bitmap* bmp;
 public:
-    explicit LogoViewTest(LogoViewModel *viewModel) : ViewTest(viewModel) {
+    explicit LogoViewTest(LogoViewModel *viewModel) : View(viewModel) {
         bmp = viewModel->get_bitmap();
         DEBUG_PRINT("%d, %d", bmp->height, bmp->width);
     }

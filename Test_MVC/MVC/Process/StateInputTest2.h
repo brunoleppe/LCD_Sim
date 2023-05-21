@@ -10,7 +10,6 @@
 
 class StateInputTest2 : public StateInput{
 public:
-    StateInputTest2();
     Status on_event(StateEvent *evt) override;
 };
 
