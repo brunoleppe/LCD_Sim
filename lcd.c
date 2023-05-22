@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 /**********************************************************************
 * Module Preprocessor Constants
 **********************************************************************/
@@ -27,6 +29,7 @@
 static SDL_Renderer *renderer;
 static SDL_Surface* bitmapSurface;
 static SDL_Surface* renderSurface;
+static SDL_Window* window;
 // <editor-fold defaultstate="collapsed" desc="fonts">
 // <editor-fold defaultstate="collapsed" desc="Normal">
 static const unsigned char font_normal[] 	= {
@@ -381,14 +384,26 @@ static unsigned char* LCD_get_char(unsigned char c, const LCD_Font *font);
 /**********************************************************************
 * Function Definitions
 **********************************************************************/
-void    LCD_init(SDL_Renderer *_renderer)
+int    LCD_init()
 {
-    renderer = _renderer;
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) return 1;
+
+    // Create a window
+    window = SDL_CreateWindow("My Window", 100, 100, 480, 256, SDL_WINDOW_SHOWN);
+    if (window == NULL) {
+        SDL_Quit();
+        return 1;
+    }
+    // Create renderer for window
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    // Set the color of the screen to white
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     bitmapSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
     SDL_FillRect(bitmapSurface, NULL, SDL_MapRGB(bitmapSurface->format, 255, 255, 255));
     renderSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
     SDL_FillRect(renderSurface, NULL, SDL_MapRGB(renderSurface->format, 255, 255, 255));
     printf("Size = %d\n", bitmapSurface->w * bitmapSurface->h);
+    return 0;
 }
 void LCD_configure()
 {
@@ -398,6 +413,11 @@ void    LCD_deinit()
 {
     SDL_FreeSurface(bitmapSurface);
     SDL_FreeSurface(renderSurface);
+    // Clean up and quit SDL
+    SDL_DestroyRenderer(renderer);
+
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
 void    LCD_draw_point  (int x, int y, uint8_t color)
 {

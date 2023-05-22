@@ -48,38 +48,19 @@ int state_machine_task(void *data){
 
 
 int main(int argc, char** argv) {
-    setlocale(LC_ALL, "es_EC.UTF-8");
     (void)argc;
     (void)argv;
     SDL_Thread *eventThread;
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) return 1;
 
-    // Create a window
-    SDL_Window* window = SDL_CreateWindow("My Window", 100, 100, 480, 256, SDL_WINDOW_SHOWN);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
+
+    if(LCD_init() != 0)
         return 1;
-    }
-    // Create renderer for window
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-    // Set the color of the screen to white
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
-    LCD_init(renderer);
 
     std::cout << "SDL iniciado" << std::endl;
 
     TestStateMachine machine;
-//    machine.set_state(new StateInputTest1());
     input_register(&machine);
-
-
-    std::cout << "MVC iniciado" << std::endl;
-
-    // Create event handling thread
-    std::cout << "Creando hilo de eventos" << std::endl;
 
 #ifdef __linux__
     eventThread = SDL_CreateThread(input_task, "EventThread", window);
@@ -97,8 +78,6 @@ int main(int argc, char** argv) {
     SDL_WaitThread(eventThread, nullptr);
     std::cout << "Hilos finalizados" << std::endl;
 #elif defined(_WIN32)
-    LCD_draw_string(0,0,"Hola Mundo",LCD_FONT_MEDIUM,LCD_COLOR_BLACK);
-    LCD_print();
     {
         SDL_Event event;
         unsigned int elapsed;
@@ -131,16 +110,7 @@ int main(int argc, char** argv) {
         }
     }
 #endif
-
-CLEAN_UP:
     LCD_deinit();
-    // Clean up and quit SDL
-    SDL_DestroyRenderer(renderer);
-
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-    std::cout << "SDL finalizado" << std::endl;
-
     machine.stop_all();
     return 0;
 }

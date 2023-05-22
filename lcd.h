@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_thread.h>
+
 
 #ifndef LCD_H
 #define LCD_H
@@ -38,7 +37,7 @@ typedef struct{
 extern "C"{
 #endif
 
-void LCD_init(SDL_Renderer *renderer);
+int LCD_init();
 void LCD_configure();
 void LCD_deinit();
 
