@@ -55,9 +55,8 @@ add_library(MVC
         MVC/Process/StateInputTest1.h
         MVC/Process/StateInputTest2.cpp
         MVC/Process/StateInputTest2.h
-        Test/Views/InputViewTest.h
+
         MVC/ViewModels/LogoViewModel.h
         MVC/ViewModels/ViewModel.h
-        Test/Views/LogoViewTest.h
         Factory.h
         MVC/Views/LogoView.h MVC/Views/InputView.h)
