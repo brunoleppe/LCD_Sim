@@ -15,6 +15,12 @@
 #include "MVC/Process/StateMainLogo.h"
 #include "DataTypes/queue.h"
 
+#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
+#endif
+
+
 class TestStateMachine : public StateMachine, public Observer{
 
 private:
