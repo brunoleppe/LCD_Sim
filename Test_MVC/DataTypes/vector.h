@@ -9,13 +9,14 @@
 
 namespace bru {
 
-template <typename T>
-class vector {
-private:
-    T* buffer;
-    int capacity = 1;
-    int count;
-    void reserve(){
+    template <typename T>
+    class vector {
+    private:
+        T* buffer;
+        int capacity;
+        int count;
+#ifdef VECTOR_USE_DYNAMIC_RESIZING
+        void reserve(){
         T *newData = new T[capacity];
         for(int i=0; i<count; i++){
             newData[i] = buffer[i];
@@ -23,97 +24,109 @@ private:
         delete[] buffer;
         buffer = newData;
     }
-public:
-
-    class Iterator {
+#endif
     public:
-        using iterator_category = std::random_access_iterator_tag;
-        using value_type = T;
-        using difference_type = std::ptrdiff_t;
-        using pointer = T*;
-        using reference = T&;
 
-        explicit Iterator(pointer ptr) : ptr_(ptr) {}
+        class Iterator {
+        public:
+            using pointer = T*;
+            using reference = T&;
 
-        reference operator*() const {
-            return *ptr_;
+            explicit Iterator(pointer ptr) : ptr_(ptr) {}
+
+            reference operator*() const {
+                return *ptr_;
+            }
+
+            Iterator& operator++() {
+                ++ptr_;
+                return *this;
+            }
+
+            Iterator operator++(int) {
+                Iterator temp = *this;
+                ++ptr_;
+                return temp;
+            }
+
+            bool operator==(const Iterator& other) const {
+                return ptr_ == other.ptr_;
+            }
+
+            bool operator!=(const Iterator& other) const {
+                return *this != other;
+            }
+
+        private:
+            pointer ptr_;
+        };
+
+        vector() : buffer(nullptr), count(0),
+#ifdef VECTOR_USE_DYNAMIC_RESIZING
+                capacity(1)
+#else
+                   capacity(16)
+#endif
+        {
+            buffer = new T[capacity];
         }
 
-        Iterator& operator++() {
-            ++ptr_;
-            return *this;
+        virtual ~vector() {
+            delete[] buffer;
         }
 
-        Iterator operator++(int) {
-            Iterator temp = *this;
-            ++ptr_;
-            return temp;
+        int size() const{
+            return count;
         }
 
-        bool operator==(const Iterator& other) const {
-            return ptr_ == other.ptr_;
+        bool empty(){
+            return count == 0;
         }
 
-        bool operator!=(const Iterator& other) const {
-            return *this != other;
+        void push_back(const T &&a){
+            if(count == capacity){
+#ifdef VECTOR_USE_DYNAMIC_RESIZING
+                capacity *= 2;
+            reserve();
+#else
+                return;
+#endif
+            }
+            buffer[count++] = a;
+        }
+        void push_back(const T &a){
+            if(count == capacity){
+#ifdef VECTOR_USE_DYNAMIC_RESIZING
+                capacity *= 2;
+            reserve();
+#else
+                return;
+#endif
+            }
+            buffer[count++] = a;
         }
 
-    private:
-        pointer ptr_;
+        void pop_back(){
+            if(count > 0)
+                count--;
+        }
+
+        T operator[](int index){
+            return buffer[index];
+        }
+
+        Iterator begin() {
+            return Iterator(buffer);
+        }
+
+        Iterator end() {
+            return Iterator(buffer + count);
+        }
+        void clear(){
+            count = 0;
+        }
+
     };
-
-    vector() : buffer(nullptr), count(0){
-        buffer = new T[capacity];
-    }
-
-    virtual ~vector() {
-        delete[] buffer;
-    }
-
-    int size() const{
-        return count;
-    }
-
-    bool empty(){
-        return count == 0;
-    }
-
-    void push_back(const T &&a){
-        if(count == capacity){
-            capacity *= 2;
-            reserve();
-        }
-        buffer[count++] = a;
-    }
-    void push_back(const T &a){
-        if(count == capacity){
-            capacity *= 2;
-            reserve();
-        }
-        buffer[count++] = a;
-    }
-
-    void pop_back(){
-        if(count > 0)
-            count--;
-    }
-
-    T operator[](int index){
-        return buffer[index];
-    }
-
-    Iterator begin() {
-        return Iterator(buffer);
-    }
-
-    Iterator end() {
-        return Iterator(buffer + count);
-    }
-    void clear(){
-        count = 0;
-    }
-
-};
 
 } // bru
 
