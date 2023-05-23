@@ -13,13 +13,16 @@
 #include "MVC/Process/StateInputTest1.h"
 #include "Factory.h"
 #include "MVC/Process/StateMainLogo.h"
-#include "DataTypes/queue.h"
 
 #if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
+#include "DataTypes/queue.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
+#else
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "task.h"
 #endif
-
 
 class TestStateMachine : public StateMachine, public Observer{
 
@@ -28,19 +31,31 @@ private:
     View* view;
     StateType type;
 
+    bool running = true;
 #if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
     bru::queue<ControllerInputEvent> queue;
-    bool running = true;
     SDL_Thread* thread;
+#else
+    QueueHandle_t queue;
+#endif
 
-    static int task(void *data){
+#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
+    static int
+#else
+    static void
+#endif
+    task(void *data){
         LCD_configure();
         auto machine = (TestStateMachine*)data;
-
+        ControllerInputEvent evt = {};
         while(machine->running){
+#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
             if(!machine->queue.empty()){
-                ControllerInputEvent evt = machine->queue.front();
+                evt = machine->queue.front();
                 machine->queue.pop();
+#else
+                if(xQueueReceive(machine->queue,&evt,10)){
+#endif
 
                 if(machine->view->set_input(evt))
                     continue;
@@ -66,13 +81,14 @@ private:
             }
             machine->view->draw();
             LCD_print();
+#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
             SDL_Delay(16);
-        }
-
-        return 0;
-    }
 #endif
-
+        }
+#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
+        return 0;
+#endif
+    }
 
 public:
 
@@ -84,6 +100,9 @@ public:
 #if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
         running = true;
         thread = SDL_CreateThread(TestStateMachine::task, "controller_task", this);
+#else
+        queue = xQueueCreate(2,sizeof(ControllerInputEvent));
+        xTaskCreate(task,"controller_task",1024,this,2, nullptr);
 #endif
 
 
@@ -91,28 +110,11 @@ public:
 
     void update(Subject *subject) override{
         auto evt = *(ControllerInputEvent*)subject->get_data();
+#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
         queue.push(evt);
-//        if(view->set_input(*evt))
-//            return;
-//
-//        if(evt->type == INPUT_EVENT_TYPE_CONTROL){
-//            if(state == nullptr)
-//                return;
-//            StateEvent stateEvt = {
-//                    .signal = signals[evt->code],
-//                    .value = evt->event,
-//            };
-//            if(state->on_event(&stateEvt) == STATUS_TRANSITION){
-//                if(state->get_type() != type){
-//                    type = state->get_type();
-//                    delete view;
-//                    view = Factory::create(state);
-//                }
-//                else{
-//                    view->get_viewModel()->set_state(state);
-//                }
-//            }
-//        }
+#else
+        xQueueSend(queue,&evt,10);
+#endif
     }
 
     void stop_all(){
