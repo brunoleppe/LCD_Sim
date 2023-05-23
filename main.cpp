@@ -63,12 +63,11 @@ int main(int argc, char** argv) {
     input_register(&machine);
 
 #ifdef __linux__
-    eventThread = SDL_CreateThread(input_task, "EventThread", window);
+    eventThread = SDL_CreateThread(input_task, "EventThread", nullptr);
     if (eventThread == nullptr)
     {
         std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
         running = false;
-        goto CLEAN_UP;
     }
     std::cout << "hilo de eventos creado" << std::endl;
 
