@@ -5,6 +5,7 @@
 #ifndef LCDTEST_STATEMACHINE_H
 #define LCDTEST_STATEMACHINE_H
 
+#include "input.h"
 
 enum StateType{
     STATE_TYPE_BASE,
@@ -39,7 +40,7 @@ enum Status{
 
 struct StateEvent{
     StateEventSignal signal;
-    int value;
+    INPUT_EVENTS value;
 };
 
 class StateMachine;

@@ -22,6 +22,10 @@ public:
     void set_selected_index(int i){
         stateMenu->set_index(i);
     }
+
+    bru::string* get_title(){
+        return stateMenu->get_title();
+    }
 };
 
 
