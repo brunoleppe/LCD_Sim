@@ -6,6 +6,7 @@
 #include "StateInputTest1.h"
 #include "debug_bsp.h"
 #include "input.h"
+#include "StateMenuTest1.h"
 
 Status StateInputTest2::on_event(StateEvent *evt) {
     Status status;
@@ -21,7 +22,7 @@ Status StateInputTest2::on_event(StateEvent *evt) {
             if(evt->value == INPUT_EVENT_CLICKED) {
                 status = STATUS_TRANSITION;
                 DEBUG_PRINT("%s\n", string.c_str());
-                context->transition(new StateInputTest1());
+                context->transition(new StateMenuTest1());
             }
             break;
         default: status = State::on_event(evt);

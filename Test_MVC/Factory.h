@@ -11,6 +11,8 @@
 #include "Test/Views/InputViewTest.h"
 #include "MVC/Views/LogoView.h"
 #include "MVC/Views/InputView.h"
+#include "MVC/ViewModels/ItemViewModel.h"
+#include "MVC/Views/ItemView.h"
 
 class Factory {
 private:
@@ -29,6 +31,10 @@ public:
             }
                 break;
             case STATE_TYPE_MENU:
+            {
+                auto model = new ItemViewModel((StateMenu*)state);
+                view = new ItemView(model);
+            }
                 break;
             case STATE_TYPE_INPUT:
             {

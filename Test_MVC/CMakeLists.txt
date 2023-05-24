@@ -59,4 +59,4 @@ add_library(MVC
         MVC/ViewModels/LogoViewModel.h
         MVC/ViewModels/ViewModel.h
         Factory.h
-        MVC/Views/LogoView.h MVC/Views/InputView.h)
+        MVC/Views/LogoView.h MVC/Views/InputView.h MVC/Views/ItemView.h MVC/ViewModels/ItemViewModel.h MVC/Process/StateMenuTest1.cpp MVC/Process/StateMenuTest1.h)
