@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
         }
     }
 #endif
-    LCD_deinit();
     machine.stop_all();
+    LCD_deinit();
     return 0;
 }

@@ -118,13 +118,12 @@ public:
     }
 
     void stop_all(){
-        stop();
 
 #if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
         running = false;
         SDL_WaitThread(thread, nullptr);
 #endif
-
+        stop();
         delete view;
     }
 };
