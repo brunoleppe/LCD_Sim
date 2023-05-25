@@ -18,6 +18,7 @@ endif ()
 
 include_directories(.)
 include_directories(Test_MVC)
+include_directories(FreeRTOS_mock)
 if (UNIX)
 find_package(SDL2 REQUIRED)
 endif ()
@@ -32,7 +33,7 @@ add_executable(LCDTest
         SDL_Queue.cpp SDL_Queue.h
         virtual_term.h
         virtual_term.cpp
-        version.h)
+        version.h FreeRTOS_mock/timer.cpp FreeRTOS_mock/timer.h FreeRTOS_mock/FreeRTOS.h FreeRTOS_mock/FreeRTOS_defs.h FreeRTOS_mock/queue.h FreeRTOS_mock/queue.cpp FreeRTOS_mock/task.cpp FreeRTOS_mock/task.h)
 
 add_subdirectory(Test_MVC)
 
