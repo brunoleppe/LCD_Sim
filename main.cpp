@@ -6,6 +6,7 @@
 #include "Test_MVC/Input/input_cpp.h"
 #include "Test_MVC/TestStateMachine.h"
 #include "FreeRTOS_mock/timer.h"
+#include "music.h"
 
 bool running = true;
 
@@ -54,8 +55,11 @@ int main(int argc, char** argv) {
 
 
 
+
     if(LCD_init() != 0)
         return 1;
+
+    music_initialize();
 
     std::cout << "SDL iniciado" << std::endl;
 
@@ -112,5 +116,6 @@ int main(int argc, char** argv) {
     machine.stop_all();
     LCD_deinit();
     timer_task_stop();
+    music_deinit();
     return 0;
 }

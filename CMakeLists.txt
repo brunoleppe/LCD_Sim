@@ -19,6 +19,7 @@ endif ()
 include_directories(.)
 include_directories(Test_MVC)
 include_directories(FreeRTOS_mock)
+include_directories(BSP)
 if (UNIX)
 find_package(SDL2 REQUIRED)
 endif ()
@@ -33,7 +34,7 @@ add_executable(LCDTest
         SDL_Queue.cpp SDL_Queue.h
         virtual_term.h
         virtual_term.cpp
-        version.h FreeRTOS_mock/timer.cpp FreeRTOS_mock/timer.h FreeRTOS_mock/FreeRTOS.h FreeRTOS_mock/FreeRTOS_defs.h FreeRTOS_mock/queue.h FreeRTOS_mock/queue.cpp FreeRTOS_mock/task.cpp FreeRTOS_mock/task.h)
+        version.h FreeRTOS_mock/timer.cpp FreeRTOS_mock/timer.h FreeRTOS_mock/FreeRTOS.h FreeRTOS_mock/FreeRTOS_defs.h FreeRTOS_mock/queue.h FreeRTOS_mock/queue.cpp FreeRTOS_mock/task.cpp FreeRTOS_mock/task.h BSP/music.h BSP/music.cpp)
 
 add_subdirectory(Test_MVC)
 
@@ -42,7 +43,7 @@ if (UNIX)
 target_link_libraries(LCDTest ${SDL2_LIBRARIES})
 target_link_libraries(LCDTest pthread)
 else()
-target_link_libraries(LCDTest -lmingw32 ${SDL2_LIBRARIES}/libSDL2main.a ${SDL2_LIBRARIES}/libSDL2.dll.a)
+target_link_libraries(LCDTest -lmingw32 ${SDL2_LIBRARIES}/libSDL2main.a ${SDL2_LIBRARIES}/libSDL2.dll.a ${SDL2_LIBRARIES}/libSDL2.a)
 endif ()
 
 # Include the version script
