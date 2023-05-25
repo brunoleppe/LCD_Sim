@@ -46,6 +46,8 @@ BaseType_t xTaskCreate(TaskFunction_t pxTaskCode,
 
 void vTaskDelete(TaskHandle_t xTask)
 {
+    if(xTask == nullptr)
+        return;
     xTask->stop();
     delete xTask;
 }
