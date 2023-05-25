@@ -16,13 +16,8 @@
 
 #include "FreeRTOS.h"
 #include "queue.h"
-
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_thread.h>
-#else
 #include "task.h"
-#endif
+
 
 class TestStateMachine : public StateMachine, public Observer{
 
@@ -30,21 +25,12 @@ private:
     static StateEventSignal signals[10];
     View* view;
     StateType type;
-
+    QueueHandle_t queue;
     bool running = true;
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-//    bru::queue<ControllerInputEvent> queue;
-    QueueHandle_t queue;
-    SDL_Thread* thread;
-#else
-    QueueHandle_t queue;
-#endif
 
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-    static int
-#else
+    TaskHandle_t stateMachineTask = {};
+
     static void
-#endif
     task(void *data){
         LCD_configure();
         auto machine = (TestStateMachine*)data;
@@ -75,13 +61,8 @@ private:
             }
             machine->view->draw();
             LCD_print();
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-            SDL_Delay(16);
-#endif
+            vTaskDelay(16);
         }
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-        return 0;
-#endif
     }
 
 public:
@@ -91,15 +72,9 @@ public:
         type = state->get_type();
         view = Factory::create(state);
         set_state(state);
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
         running = true;
-        thread = SDL_CreateThread(TestStateMachine::task, "controller_task", this);
-#else
-        xTaskCreate(task,"controller_task",1024,this,2, nullptr);
-#endif
+        xTaskCreate(task,"controller_task",1024,this,2, &stateMachineTask);
         queue = xQueueCreate(2,sizeof(ControllerInputEvent));
-
-
     }
 
     void update(Subject *subject) override{
@@ -108,11 +83,8 @@ public:
     }
 
     void stop_all(){
-
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
         running = false;
-        SDL_WaitThread(thread, nullptr);
-#endif
+        vTaskDelete(stateMachineTask);
         stop();
         delete view;
     }
