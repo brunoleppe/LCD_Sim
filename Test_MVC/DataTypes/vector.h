@@ -13,8 +13,8 @@ namespace bru {
     class vector {
     private:
         T* buffer;
-        int capacity;
         int count;
+        int capacity;
 #ifdef VECTOR_USE_DYNAMIC_RESIZING
         void reserve(){
         T *newData = new T[capacity];
