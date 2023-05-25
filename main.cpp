@@ -5,6 +5,7 @@
 #include "input.h"
 #include "Test_MVC/Input/input_cpp.h"
 #include "Test_MVC/TestStateMachine.h"
+#include "FreeRTOS_mock/timer.h"
 
 bool running = true;
 
@@ -50,7 +51,6 @@ int state_machine_task(void *data){
 int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
-    SDL_Thread *eventThread;
 
 
 
@@ -61,9 +61,9 @@ int main(int argc, char** argv) {
 
     TestStateMachine machine;
     input_register(&machine);
-
+    timer_task();
 #ifdef __linux__
-    eventThread = SDL_CreateThread(input_task, "EventThread", nullptr);
+    SDL_Thread *eventThread = SDL_CreateThread(input_task, "EventThread", nullptr);
     if (eventThread == nullptr)
     {
         std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
@@ -111,5 +111,6 @@ int main(int argc, char** argv) {
 #endif
     machine.stop_all();
     LCD_deinit();
+    timer_task_stop();
     return 0;
 }
