@@ -3,14 +3,13 @@
 //
 
 #include "StateMainLogo.h"
-#include "input.h"
 #include "debug_bsp.h"
 #include "version.h"
-#include "StateTransactionTypeMenu.h"
 #include "StateInputTest1.h"
 
+
 Status StateMainLogo::on_event(StateEvent *evt) {
-    Status status;
+    Status status = STATUS_IGNORED;
     switch(evt->signal){
         case EVENT_SIGNAL_ENTER:
             DEBUG_PRINT("Logo State, %s\n", VERSION);
@@ -19,6 +18,7 @@ Status StateMainLogo::on_event(StateEvent *evt) {
             break;
         case EVENT_SIGNAL_SELECT:
             if(evt->value == INPUT_EVENT_CLICKED){
+                xTimerDelete(timer,0);
                 status = STATUS_TRANSITION;
                 context->transition(new StateInputTest1());
             }
@@ -26,4 +26,22 @@ Status StateMainLogo::on_event(StateEvent *evt) {
         default: status = StateLogo::on_event(evt);
     }
     return status;
+}
+
+StateMainLogo::StateMainLogo() {
+    timer = xTimerCreate("timer1", 1000, true, this,
+                         [](TimerHandle_t t)
+    {
+        static bool toggle = true;
+        DEBUG_PRINT("Hola Mundo\n");
+        auto state = static_cast<StateMainLogo*>(pvTimerGetTimerID(t));
+        if(toggle){
+            memset(state->bitmap,0x00,LCD_WIDTH*LCD_HEIGHT/2);
+        }
+        else{
+            memset(state->bitmap,0xF0,LCD_WIDTH*LCD_HEIGHT/2);
+        }
+        toggle = !toggle;
+    });
+    xTimerStart(timer, 0);
 }
