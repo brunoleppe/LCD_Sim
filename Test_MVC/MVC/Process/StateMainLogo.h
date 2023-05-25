@@ -7,9 +7,14 @@
 
 
 #include "Test_MVC/MVC/States/StateLogo.h"
+#include "FreeRTOS.h"
+#include "timer.h"
 
 class StateMainLogo : public StateLogo{
+private:
+    TimerHandle_t timer;
 public:
+    StateMainLogo();
     Status on_event(StateEvent *evt) override;
 };
 
