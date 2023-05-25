@@ -14,13 +14,13 @@
 #include "Factory.h"
 #include "MVC/Process/StateMainLogo.h"
 
+#include "FreeRTOS.h"
+#include "queue.h"
+
 #if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-#include "DataTypes/queue.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
 #else
-#include "FreeRTOS.h"
-#include "queue.h"
 #include "task.h"
 #endif
 
@@ -33,7 +33,8 @@ private:
 
     bool running = true;
 #if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-    bru::queue<ControllerInputEvent> queue;
+//    bru::queue<ControllerInputEvent> queue;
+    QueueHandle_t queue;
     SDL_Thread* thread;
 #else
     QueueHandle_t queue;
@@ -49,14 +50,7 @@ private:
         auto machine = (TestStateMachine*)data;
         ControllerInputEvent evt = {};
         while(machine->running){
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-            if(!machine->queue.empty()){
-                evt = machine->queue.front();
-                machine->queue.pop();
-#else
-                if(xQueueReceive(machine->queue,&evt,10)){
-#endif
-
+            if(xQueueReceive(machine->queue,&evt,10)){
                 if(machine->view->set_input(evt))
                     continue;
 
@@ -101,20 +95,16 @@ public:
         running = true;
         thread = SDL_CreateThread(TestStateMachine::task, "controller_task", this);
 #else
-        queue = xQueueCreate(2,sizeof(ControllerInputEvent));
         xTaskCreate(task,"controller_task",1024,this,2, nullptr);
 #endif
+        queue = xQueueCreate(2,sizeof(ControllerInputEvent));
 
 
     }
 
     void update(Subject *subject) override{
         auto evt = *(ControllerInputEvent*)subject->get_data();
-#if !defined(PIC32) && !defined(__PIC32) && !defined(__PIC32__)
-        queue.push(evt);
-#else
         xQueueSend(queue,&evt,10);
-#endif
     }
 
     void stop_all(){
