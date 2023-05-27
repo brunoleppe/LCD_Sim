@@ -27,7 +27,6 @@ int input_task(void *data) {
             initialTime = SDL_GetTicks();
             input_report_key(event.key.keysym.scancode, INPUT_EVENT_PRESSED);
         } else if (event.type == SDL_KEYUP) {
-
             finalTime = SDL_GetTicks();
             elapsed = finalTime - initialTime;
             input_report_key(event.key.keysym.scancode, INPUT_EVENT_RELEASED);
@@ -52,9 +51,6 @@ int state_machine_task(void *data){
 int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
-
-
-
 
     if(LCD_init() != 0)
         return 1;

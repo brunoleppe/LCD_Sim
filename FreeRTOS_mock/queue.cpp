@@ -27,6 +27,7 @@ public:
         char* e = q.front();
         q.pop();
         memcpy(data,e,size);
+        delete[] e;
     }
 
     bool empty(){

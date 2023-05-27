@@ -17,7 +17,11 @@ struct AudioData{
 static const int SAMPLE_RATE = 44100;
 static const int BUFFER_SIZE = 2048;
 static const int CHANNELS = 2;
+#if defined(_WIN32) || defined(_WIN64)
 static const int BYTES_PER_SAMPLE = sizeof(float);
+#elif defined(__linux__)
+static const int BYTES_PER_SAMPLE = sizeof(Sint16);
+#endif
 static float angle = 0.0;
 static AudioData data;
 static TaskHandle_t thread;
@@ -105,11 +109,10 @@ static Song os_song = {
 };
 
 static void audioCallback(void* userdata, Uint8* stream, int len);
-static void generateAudioSamples(float frequency, float* stream, int length);
 static void task(void*);
 
 
-
+//AUDIO_S16LSB
 void music_initialize()
 {
     SDL_AudioSpec desiredSpec, obtainedSpec;
@@ -120,6 +123,7 @@ void music_initialize()
     desiredSpec.callback = audioCallback;
     desiredSpec.userdata = &data;
 
+
     data.play = false;
 
     /* Open the audio device, forcing the desired format */
@@ -127,6 +131,12 @@ void music_initialize()
         DEBUG_PRINT("Error\n");
         return;
     }
+
+
+    DEBUG_PRINT("0x%x\n",obtainedSpec.format);
+    DEBUG_PRINT("0x%d\n",obtainedSpec.freq);
+    DEBUG_PRINT("0x%d\n",obtainedSpec.channels);
+    DEBUG_PRINT("0x%d\n",obtainedSpec.samples);
 
     SDL_PauseAudio(0);  // Unpause audio playback
     running = true;
@@ -145,9 +155,11 @@ void music_play_note(enum MuscialNote note, int ticks)
 {
     data.play = true;
     data.note = note;
-    SDL_Delay(ticks-10);
+    SDL_PauseAudio(0);
+    SDL_Delay(ticks-30);
     data.note = silence;
-    SDL_Delay(10);
+    SDL_Delay(30);
+    SDL_PauseAudio(1);
     data.play = false;
 }
 void music_play_song(Song *song)
@@ -156,6 +168,7 @@ void music_play_song(Song *song)
 }
 
 // Function to generate audio samples for the C5 note
+#if defined(_WIN32) || defined(_WIN64)
 static void generateAudioSamples(float frequency, float* stream, int length) {
     const float amplitude = 0.2;  // Amplitude of the audio signal
     float increment = 2.0f * M_PI * frequency / SAMPLE_RATE;
@@ -167,12 +180,33 @@ static void generateAudioSamples(float frequency, float* stream, int length) {
         angle += increment;
     }
 }
+#elif defined(__linux__)
+static void generateAudioSamples(float frequency, Sint16* stream, int length) {
+    const float amplitude = 0.2;  // Amplitude of the audio signal
+    float increment = 2.0f * M_PI * frequency / SAMPLE_RATE;
+    const float maxAmplitude = 32767.0f;
+
+    for (int i = 0; i < length; i+=2) {
+        float sample = amplitude * sinf(angle);
+        Sint16 sampleValue = (Sint16)(sample * maxAmplitude);
+        stream[i] = sampleValue;
+        stream[i+1] = sampleValue;
+        angle += increment;
+    }
+}
+#endif
+
 // Audio callback function
 void audioCallback(void* userdata, Uint8* stream, int len) {
     if(!data.play)
         return;
-    float* samples = (float*)stream;
     int numSamples = len / BYTES_PER_SAMPLE;
+#if defined(_WIN32) || defined(_WIN64)
+    float* samples = (float*)stream;
+#elif defined(__linux__)
+    Sint16* samples = (Sint16*)stream;
+#endif
+
     generateAudioSamples(notes[data.note] ,samples, numSamples);
 }
 

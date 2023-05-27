@@ -15,6 +15,9 @@ private:
     TimerHandle_t timer;
 public:
     StateMainLogo();
+
+    ~StateMainLogo() override;
+
     Status on_event(StateEvent *evt) override;
 };
 

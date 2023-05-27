@@ -85,6 +85,7 @@ public:
     void stop_all(){
         running = false;
         vTaskDelete(stateMachineTask);
+        vQueueDelete(queue);
         stop();
         delete view;
     }

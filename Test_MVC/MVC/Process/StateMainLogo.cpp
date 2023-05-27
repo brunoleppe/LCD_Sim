@@ -18,7 +18,6 @@ Status StateMainLogo::on_event(StateEvent *evt) {
             break;
         case EVENT_SIGNAL_SELECT:
             if(evt->value == INPUT_EVENT_CLICKED){
-                xTimerDelete(timer,0);
                 status = STATUS_TRANSITION;
                 context->transition(new StateInputTest1());
             }
@@ -33,7 +32,6 @@ StateMainLogo::StateMainLogo() {
                          [](TimerHandle_t t)
     {
         static bool toggle = true;
-        DEBUG_PRINT("Hola Mundo\n");
         auto state = static_cast<StateMainLogo*>(pvTimerGetTimerID(t));
         if(toggle){
             memset(state->bitmap,0x00,LCD_WIDTH*LCD_HEIGHT/2);
@@ -44,4 +42,8 @@ StateMainLogo::StateMainLogo() {
         toggle = !toggle;
     });
     xTimerStart(timer, 0);
+}
+
+StateMainLogo::~StateMainLogo() {
+    xTimerDelete(timer,0);
 }
