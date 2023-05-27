@@ -2,6 +2,7 @@
 * Includes
 **********************************************************************/
 #include "lcd.h"
+#include "debug_bsp.h"
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -389,15 +390,20 @@ int    LCD_init()
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) return 1;
 
     // Create a window
-    window = SDL_CreateWindow("My Window", 20, 580, 480, 256, SDL_WINDOW_SHOWN);
+//    window = SDL_CreateWindow("My Window", 20, 580, 480, 256, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("My Window", 20, 580, 480, 256,  SDL_WINDOW_SHOWN);
     if (window == NULL) {
         SDL_Quit();
+        DEBUG_PRINT("Error de renderer\n");
         return 1;
     }
     // Create renderer for window
     renderer = SDL_CreateRenderer(window, -1, 0);
-    // Set the color of the screen to white
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    if(!renderer){
+        DEBUG_PRINT("Error de renderer\n");
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+    }
     bitmapSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
     SDL_FillRect(bitmapSurface, NULL, SDL_MapRGB(bitmapSurface->format, 255, 255, 255));
     renderSurface = SDL_CreateRGBSurface(0, 480, 256, 32, 0, 0, 0, 0);
@@ -422,19 +428,13 @@ void    LCD_deinit()
 void    LCD_draw_point  (int x, int y, uint8_t color)
 {
     int rgb = color;
-
     SDL_LockSurface(bitmapSurface);
-
-
     Uint32* pixels = (Uint32*) bitmapSurface->pixels;
     pixels[2*x + 2* y * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
     pixels[(2*x +1) + (2*y + 1) * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
     pixels[(2*x) + (2*y + 1) * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
     pixels[(2*x +1) + (2*y) * bitmapSurface->w] = SDL_MapRGB(bitmapSurface->format, rgb, rgb, rgb);
-
     SDL_UnlockSurface(bitmapSurface);
-
-
 }
 void    LCD_draw_hline  (int x, int y, int length, uint8_t color)
 {
@@ -509,29 +509,52 @@ void    LCD_draw_bitmap (int x, int y, int width, int height, const uint8_t *bit
 void    LCD_clear()
 {
     SDL_FillRect(bitmapSurface, NULL, SDL_MapRGB(bitmapSurface->format, 255, 255, 255));
+//    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    // Clear the renderer
+//    SDL_RenderClear(renderer);
 }
 
 void    LCD_print()
 {
-//    SDL_BlitSurface(bitmapSurface, NULL, renderSurface, NULL);
+    SDL_BlitSurface(bitmapSurface, NULL, renderSurface, NULL);
 
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    
+//    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+//    SDL_RenderClear(renderer);
+//
+//    // Create a texture from the bitmap surface
+//    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, bitmapSurface);
+//
+//    // Draw the bitmap texture to the renderer
+//    SDL_Rect bitmapRect = { 0, 0, bitmapSurface->w, bitmapSurface->h };
+//    SDL_RenderCopy(renderer, bitmapTexture, NULL, &bitmapRect);
+//
+//    // Present the renderer
+//    SDL_RenderPresent(renderer);
+//
+//    // Clean up
+//    SDL_DestroyTexture(bitmapTexture);
+}
+
+void LCD_render()
+{
+//    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+//    SDL_RenderClear(renderer);
+
     // Create a texture from the bitmap surface
-    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, bitmapSurface);
+    SDL_Texture* bitmapTexture = SDL_CreateTextureFromSurface(renderer, renderSurface);
 
     // Draw the bitmap texture to the renderer
-    SDL_Rect bitmapRect = { 0, 0, bitmapSurface->w, bitmapSurface->h };
+    SDL_Rect bitmapRect = { 0, 0, renderSurface->w, renderSurface->h };
     SDL_RenderCopy(renderer, bitmapTexture, NULL, &bitmapRect);
-    
+
     // Present the renderer
     SDL_RenderPresent(renderer);
-    
+
     // Clean up
     SDL_DestroyTexture(bitmapTexture);
 }
+
 
 const LCD_Font* LCD_get_font(LCD_Fonts font)
 {

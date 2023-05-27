@@ -60,7 +60,7 @@ void LCD_draw_bitmap (int x, int y, int width, int height, const uint8_t *bitmap
 void LCD_clear();
 
 void LCD_print();
-
+void LCD_render();
 const LCD_Font* LCD_get_font(LCD_Fonts font);
 
 uint8_t LCD_invert_color(uint8_t color);
