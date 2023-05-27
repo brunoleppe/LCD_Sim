@@ -2,7 +2,7 @@
 // Created by bleppe on 25/5/2023.
 //
 
-#include "timer.h"
+#include "timers.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
 #include <list>

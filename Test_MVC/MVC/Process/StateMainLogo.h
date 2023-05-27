@@ -8,7 +8,7 @@
 
 #include "Test_MVC/MVC/States/StateLogo.h"
 #include "FreeRTOS.h"
-#include "timer.h"
+#include "timers.h"
 
 class StateMainLogo : public StateLogo{
 private:

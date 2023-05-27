@@ -2,8 +2,8 @@
 // Created by bleppe on 25/5/2023.
 //
 
-#ifndef LCDTEST_TIMER_H
-#define LCDTEST_TIMER_H
+#ifndef LCDTEST_TIMERS_H
+#define LCDTEST_TIMERS_H
 
 #include <string>
 #include "FreeRTOS_defs.h"
@@ -41,4 +41,4 @@ BaseType_t xTimerReset(TimerHandle_t xTimer,
 
 void *pvTimerGetTimerID(const TimerHandle_t xTimer);
 
-#endif //LCDTEST_TIMER_H
+#endif //LCDTEST_TIMERS_H
