@@ -34,7 +34,7 @@ add_executable(LCDTest
         SDL_Queue.cpp SDL_Queue.h
         virtual_term.h
         virtual_term.cpp
-        version.h FreeRTOS_mock/timer.cpp FreeRTOS_mock/timer.h FreeRTOS_mock/FreeRTOS.h FreeRTOS_mock/FreeRTOS_defs.h FreeRTOS_mock/queue.h FreeRTOS_mock/queue.cpp FreeRTOS_mock/task.cpp FreeRTOS_mock/task.h BSP/music.h BSP/music.cpp)
+        version.h FreeRTOS_mock/timers.cpp FreeRTOS_mock/timers.h FreeRTOS_mock/FreeRTOS.h FreeRTOS_mock/FreeRTOS_defs.h FreeRTOS_mock/queue.h FreeRTOS_mock/queue.cpp FreeRTOS_mock/task.cpp FreeRTOS_mock/task.h BSP/music.h BSP/music.cpp)
 
 add_subdirectory(Test_MVC)
 
