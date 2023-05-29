@@ -43,8 +43,11 @@ public:
     }
     bool set_input(ControllerInputEvent& evt) override{
         bool result = false;
-        if(evt.type == INPUT_EVENT_TYPE_ALPHA && evt.event == INPUT_EVENT_PRESSED){
-            viewModel->add_char((char)evt.code);
+        if(evt.type == INPUT_EVENT_TYPE_ALPHA){
+            if(evt.event == INPUT_EVENT_PRESSED)
+                viewModel->add_char((char)evt.code);
+            else if(evt.event == INPUT_EVENT_CLICKED)
+                viewModel->push_char((char)evt.code);
             ERROR_PRINT("%c",(char)evt.code);
             result = true;
         }

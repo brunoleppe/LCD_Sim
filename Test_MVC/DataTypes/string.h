@@ -80,9 +80,17 @@ namespace bru {
             buffer[count++] = c;
             buffer[count] = 0;
         }
+        void place(char c){
+            if(count == capacity)
+                return;
+            buffer[count] = c;
+            buffer[count + 1] = 0;
+        }
         void pop_back(){
-            if(count > 0)
+            if(count > 0) {
+                buffer[count] = 0;
                 buffer[--count] = 0;
+            }
         }
         int size() const{
             return count;

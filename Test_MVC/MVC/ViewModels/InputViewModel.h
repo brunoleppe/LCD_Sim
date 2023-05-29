@@ -17,7 +17,11 @@ public:
     void add_char(char a){
         if(state == nullptr)
             return;
-        ((StateInput*)state)->get_string()->push_back(a);
+        ((StateInput*)state)->get_string()->place(a);
+    }
+
+    void push_char(char c){
+        ((StateInput*)state)->get_string()->push_back(c);
     }
 
     void delete_char(){
