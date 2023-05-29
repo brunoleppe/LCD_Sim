@@ -65,21 +65,7 @@ int main(int argc, char** argv) {
     TestStateMachine machine;
     input_register(&machine);
     timer_task();
-#ifdef __linux__
-//    SDL_Thread *eventThread = SDL_CreateThread(input_task, "EventThread", nullptr);
-//    if (eventThread == nullptr)
-//    {
-//        std::cerr << "SDL_CreateThread Error: " << SDL_GetError() << std::endl;
-//        running = false;
-//    }
-//    std::cout << "hilo de eventos creado" << std::endl;
-//
-//
-//
-//    // Wait for event handling thread to exit
-//    SDL_WaitThread(eventThread, nullptr);
-//    std::cout << "Hilos finalizados" << std::endl;
-//#elif defined(_WIN32)
+
     {
         SDL_Event event;
         unsigned int elapsed;
@@ -117,7 +103,7 @@ int main(int argc, char** argv) {
             }
         }
     }
-#endif
+
     machine.stop_all();
     LCD_deinit();
     timer_task_stop();
