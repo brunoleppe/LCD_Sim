@@ -17,6 +17,7 @@ private:
     InputViewModel* viewModel;
     bool cursorToggle = false;
     int cursorCounter = 0;
+    bool clicked = true;
 public:
     explicit InputView(InputViewModel *viewModel) : View(viewModel), viewModel(viewModel){}
     void draw() override{
@@ -44,10 +45,15 @@ public:
     bool set_input(ControllerInputEvent& evt) override{
         bool result = false;
         if(evt.type == INPUT_EVENT_TYPE_ALPHA){
-            if(evt.event == INPUT_EVENT_PRESSED)
-                viewModel->add_char((char)evt.code);
+            if(evt.event == INPUT_EVENT_PRESSED) {
+                if(!clicked){
+                    viewModel->delete_char();
+                }
+                viewModel->push_char((char) evt.code);
+                clicked = false;
+            }
             else if(evt.event == INPUT_EVENT_CLICKED)
-                viewModel->push_char((char)evt.code);
+                clicked = true;
             ERROR_PRINT("%c",(char)evt.code);
             result = true;
         }
@@ -57,7 +63,7 @@ public:
                 result = true;
             }
             else if(evt.code == CONTROL_TYPE_SPACE && evt.event == INPUT_EVENT_PRESSED){
-                viewModel->add_char(' ');
+                viewModel->push_char(' ');
                 ERROR_PRINT("%c", ' ');
                 result = true;
             }

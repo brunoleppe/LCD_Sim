@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 11)
 if(WIN32)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-unwind-tables -fno-rtti -Wno-write-strings -fpermissive -fdata-sections -ffunction-sections -Wall")
-    set(SDL2_INCLUDE_DIRS "C:/Users/bleppe/Documents/SDL2/x86_64-w64-mingw32/include")
-    set(SDL2_LIBRARIES "C:/Users/bleppe/Documents/SDL2/x86_64-w64-mingw32/lib")
+    set(SDL2_INCLUDE_DIRS "C:/Users/UsuarioPC/Documents/SDL2/include")
+    set(SDL2_LIBRARIES "C:/Users/UsuarioPC/Documents/SDL2/lib")
 
     message("Hello, ${SDL2_INCLUDE_DIRS}!")
 else()
